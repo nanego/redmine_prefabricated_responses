@@ -1,0 +1,15 @@
+#admin-menu a.prefabricated-responses {
+    background-image: url(../images/icons8-mail-64.png);
+    background-size: 16px;
+}
+
+.icon-prefabricated-responses {
+    background-image: url(../images/icons8-mail-64.png);
+    background-size: 16px;
+    padding-left: 25px;
+    background-repeat: no-repeat;
+}
+
+#prefabricated-responses .value {
+    font-weight: bold;
+}
