@@ -1,2 +1,9 @@
 fr:
-  # my_label: "My label"
+  label_prefabricated_responses: Réponses préfabriquées
+  label_responses: Réponses préfabriquées
+  label_prefabricated_response: Réponse préfabriquée
+  no_responses: Aucune réponse préfabriquée n'a été configurée
+  label_new_response: Ajouter une réponse préfabriquée
+  label_all_responses: Voir toutes les réponses préfabriquées
+  label_edit_response: Modifier la réponse préfabriquée
+  button_send: Envoyer

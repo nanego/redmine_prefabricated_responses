@@ -1,0 +1,61 @@
+<% html_title(l(:label_responses)) %>
+
+<div class="contextual">
+  <%= link_to(l(:label_new_response),
+              {:controller => 'responses', :action => 'new'},
+              :class => 'icon icon-add', :method => :get) %>
+</div>
+
+<h2><span class="icon icon-prefabricated-responses"><%= h "#{l(:label_responses)}" %></span></h2>
+
+<% if @notice %>
+  <div class="flash notice"><%= @notice %></div>
+<% end %>
+
+<% if @responses.empty? %>
+  <div class="responses_box">
+    <%= l(:no_responses) %>
+  </div>
+<% else %>
+
+  <div class="responses_box">
+
+    <table class="list responses" id="responses_list">
+      <thead>
+      <tr>
+        <th><%= l(:label_enabled) %></th>
+        <th><%= l(:field_name) %></th>
+        <th class="response_initial_status"><%= l(:field_initial_status_plural) %></th>
+        <th class="response_final_status"><%= l(:field_final_status) %></th>
+        <!-- <th><%= l(:label_project_plural) %></th> -->
+        <th><%= l(:label_tracker_plural) %></th>
+        <!-- <th><%= l(:field_time_limit) %></th> -->
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @responses.each do |response| %>
+        <% initial_statuses = IssueStatus.where(id: response.initial_status_ids).join(', ') %>
+        <% final_status = IssueStatus.where(id: response.final_status_id).join(', ') %>
+        <% trackers = Tracker.where(id: response.tracker_ids).join(', ') %>
+        <tr class="response">
+          <td><span class="<%= response.enabled ? 'icon icon-ok' : 'icon icon-not-ok' %>"></span></td>
+          <td><%= link_to response.name, response_path(response) %></td>
+          <td><%= h(initial_statuses) %></td>
+          <td><%= h(final_status) %></td>
+          <!-- <td><%# (response.projects.size < 3 ? response.projects.map(&:name).join(', ') : "#{response.projects.count} #{l(:label_project_plural)}") if response.projects.any? %></td> -->
+          <td><%= h(trackers) %></td>
+          <!-- <td><%= l 'time_in_days', days: response.time_limit %></td> -->
+
+          <td class="buttons">
+            <%= link_to l(:button_show), response_path(response), :class => 'icon icon-list' %>
+            <%= link_to l(:button_edit), edit_response_path(response), :class => 'icon icon-edit' %>
+            <%= delete_link response_path(response) %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+<% end %>

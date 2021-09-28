@@ -1,0 +1,10 @@
+<% if @issue.available_responses(User.current).present? %>
+  <span>
+    <%= form_tag({ action: 'add', controller: 'responses' },
+                 { id: 'add_response_form' }) do %>
+      <%= hidden_field_tag "issue_id", @issue.id %>
+      <%= select_tag :response_id, options_for_responses_select(@issue) %>
+      <%= submit_tag l(:button_send), id: 'add-response-submit', name: :send_response %>
+    <% end %>
+  </span>
+<% end %>

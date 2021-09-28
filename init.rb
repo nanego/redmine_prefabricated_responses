@@ -10,7 +10,7 @@ end
 require 'redmine_prefabricated_responses/hooks'
 
 ActiveSupport::Reloader.to_prepare do
-  # require_dependency 'redmine_prefabricated_responses/issue_patch'
+  ::Issue.prepend RedminePrefabricatedResponses::IssuePatch
 end
 
 Redmine::Plugin.register :redmine_prefabricated_responses do
@@ -21,7 +21,7 @@ Redmine::Plugin.register :redmine_prefabricated_responses do
   url 'https://github.com/nanego/redmine_prefabricated_responses'
   requires_redmine_plugin :redmine_base_rspec, :version_or_higher => '0.0.4' if Rails.env.test?
   requires_redmine_plugin :redmine_base_deface, :version_or_higher => '0.0.1'
-  menu :admin_menu, :prefabricated_responses, { :controller => 'prefabricated_responses', :action => 'index' },
+  menu :admin_menu, :prefabricated_responses, { :controller => 'responses', :action => 'index' },
        :caption => :label_prefabricated_responses,
-       :html => {:class => 'icon'}
+       :html => { :class => 'icon' }
 end

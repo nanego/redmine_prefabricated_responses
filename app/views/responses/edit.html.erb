@@ -1,0 +1,9 @@
+<div class=contextual>
+  <%= link_to l(:label_all_responses), responses_path, class: "icon-prefabricated-responses" %>
+</div>
+
+<h2><%= "#{l(:label_edit_response)}" %></h2>
+
+<div id="all_attributes">
+  <%= render :partial => 'form' %>
+</div>

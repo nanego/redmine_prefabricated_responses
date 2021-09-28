@@ -1,0 +1,44 @@
+<div class=contextual>
+  <%= link_to l(:label_all_responses), responses_path, class: "icon-prefabricated-responses" %>
+</div>
+
+<h2><%= @response.name %></h2>
+
+<fieldset id="response">
+  <legend><%= l(:label_prefabricated_response) %></legend>
+  <span class="label" style="float: right;"><%= link_to l(:button_edit), edit_response_path(@response) %></span>
+
+  <span class="label"><%= l(:label_enabled) %></span> :
+  <span class="value <%= @response.enabled ? 'icon icon-ok' : 'icon icon-not-ok' %>" style="margin-left: 10px;"></span><br/>
+
+  <span class="label"><%= l(:label_auto_update_note) %></span> :
+  <span class="value"><%= @response.note.truncate(400) %></span><br/>
+
+  <br>
+
+  <span class="label"><%= l(:field_initial_status_plural) %></span> :
+  <span class="value"><%= @initial_statuses.join(" #{l 'conditional_or'} ") %></span><br/>
+
+  <span class="label"><%= l(:field_final_status) %></span> :
+  <span class="value"><%= @final_status %></span><br/>
+
+  <br>
+
+  <% if @response.time_limit.present? %>
+  <span class="label"><%= l(:field_time_limit) %></span> :
+  <span class="value"><%= l 'time_in_days', days: @response.time_limit %></span><br/>
+  <% end %>
+
+  <% if @response.tracker_ids.present? && @response.tracker_ids.reject(&:blank?).present? %>
+    <span class="label"><%= l(:label_tracker_plural) %></span> :
+    <span class="value"><%= Tracker.where(id: @response.tracker_ids).join(" #{l 'conditional_or'} ") %></span><br/>
+  <% end %>
+
+  <% if Redmine::Plugin.installed?(:redmine_organizations) && @response.organization_ids && @response.organization_ids.reject(&:blank?).present? %>
+    <span class="label"><%= l(:field_issues_assigned_to) %></span> :
+    <span class="value"><%= Organization.where(id: @response.organization_ids).join(" #{l 'conditional_or'} ") %></span><br/>
+  <% end %>
+
+  <br/>
+
+</fieldset>
