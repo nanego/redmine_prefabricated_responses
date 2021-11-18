@@ -23,6 +23,17 @@ RSpec.describe Issue, :type => :model do
       expect(issue_7.available_responses.size).to eq 2
     end
 
+    it "does not return responses if current status does not match configured status in rules" do
+      issue_7.update(status_id: 5) # Close issue
+      expect(issue_7.available_responses).to be_empty
+    end
+
+    it "returns responses if current status matches configured status in rules" do
+      issue_7.update(status_id: 5) # Close issue
+      response.update(initial_status_ids: ['1', '2', '5'])
+      expect(issue_7.available_responses).to include response
+    end
+
   end
 
   context "add responses" do

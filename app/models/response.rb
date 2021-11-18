@@ -22,4 +22,8 @@ class Response < ActiveRecord::Base
     Project.active
   end
 
+  def self.available_for_status(status)
+    Response.active.select { |r| r.initial_status_ids.include?(status.id.to_s) }
+  end
+
 end

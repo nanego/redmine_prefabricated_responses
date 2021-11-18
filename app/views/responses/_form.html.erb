@@ -26,12 +26,6 @@
 
       <!--
       <p>
-        <%# f.number_field :time_limit, { label: l(:field_time_limit_in_days), required: false } %>
-      </p>
-      -->
-
-      <!--
-      <p>
         <%= f.label l(:label_project_plural) %>
         <span class="select_projects" id="select_projects" style="display: block;">
               <%# f.select :project_ids, project_tree_options_for_select(@response.allowed_target_projects, :selected => @response.projects),
@@ -59,7 +53,10 @@
                       { label: l(:label_tracker_plural) },
                       { class: "orga-select2", multiple: true } %></p>
 
-      <p><%= f.text_area :note, rows: 6, label: l(:label_auto_update_note) %></p>
+      <p>
+        <%= f.text_area :note, rows: 6, label: l(:label_auto_update_note) %>
+        <%= wikitoolbar_for 'response_note' %>
+      </p>
 
 
       <% if false #Redmine::Plugin.installed?(:redmine_organizations) %>

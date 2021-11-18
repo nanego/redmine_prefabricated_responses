@@ -9,7 +9,7 @@ module RedminePrefabricatedResponses
 
     def available_responses(user = User.current)
       return [] unless user.allowed_to?(:edit_issues, project) || (user.allowed_to?(:edit_own_issues, project) && user == author)
-      responses = Response.all
+      responses = Response.available_for_status(self.status)
       # TODO Filter available responses for current issue and current user
       responses
     end
