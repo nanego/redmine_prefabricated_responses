@@ -8,7 +8,7 @@ one:
   name: Close issue
 two:
   id: 2
-  initial_status_ids: ['1', '2]
+  initial_status_ids: ['1', '2']
   final_status_id:
   note: I'm just addind a note. I don't update anything else.
   enabled: true
