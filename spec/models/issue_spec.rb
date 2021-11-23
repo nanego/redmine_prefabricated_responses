@@ -20,7 +20,7 @@ RSpec.describe Issue, :type => :model do
     end
 
     it "returns an array of responses" do
-      expect(issue_7.available_responses.size).to eq 2
+      expect(issue_7.available_responses.size).to eq 3
     end
 
     it "does not return responses if current status does not match configured status in rules" do

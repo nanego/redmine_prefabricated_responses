@@ -11,6 +11,10 @@
         <%= f.check_box :enabled, { label: l(:label_enabled) } %>
       </p>
 
+      <p>
+        <%= f.check_box :is_private, { label: l(:field_is_private) } %>
+      </p>
+
       <p><%= f.select :initial_status_ids,
                       options_for_select(IssueStatus.sorted.map { |s| [s.name, s.id] }, @response.initial_status_ids),
                       { label: l(:field_initial_status_plural) },
@@ -22,6 +26,10 @@
                      { label: l(:field_final_status), required: false, include_blank: true },
                      { class: "orga-select2", multiple: false } %>
         <span><i><%= l('hint_no_final_status') %></i></span>
+      </p>
+
+      <p>
+        <%= f.text_field :author, disabled: true %>
       </p>
 
       <!--

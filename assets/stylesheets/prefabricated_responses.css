@@ -27,18 +27,16 @@
     height: 28px;
     border-radius: 3px 0 0 3px;
     border-right: none;
-    border-color: #229e43;
     font-size: 11px;
 }
 
 #add_response_form #add-response-submit {
     height: 28px;
     border-radius: 0 3px 3px 0;
-    border-color: #229e43;
-    /* background-color: #dcffe9; */
+    background-color: #DDDDDD;
     font-size: 11px;
 }
 
 #add_response_form #add-response-submit:hover, #add_response_form #add-response-submit:focus {
-    background-color: #dcffe9;
+    background-color: #CCCCCC;
 }

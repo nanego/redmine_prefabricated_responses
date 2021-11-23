@@ -6,6 +6,8 @@ one:
   enabled: true
   tracker_ids:
   name: Close issue
+  author_id: 2
+  is_private: false
 two:
   id: 2
   initial_status_ids: ['1', '2']
@@ -14,3 +16,15 @@ two:
   enabled: true
   tracker_ids:
   name: This one does not udpate the status
+  author_id: 2
+  is_private: false
+three:
+  id: 3
+  initial_status_ids: ['1', '2']
+  final_status_id:
+  note: I'm a personnal response. Nobody can see or use it except me.
+  enabled: true
+  tracker_ids:
+  name: Private response
+  author_id: 2
+  is_private: true

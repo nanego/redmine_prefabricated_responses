@@ -29,6 +29,7 @@
         <th class="response_final_status"><%= l(:field_final_status) %></th>
         <!-- <th><%= l(:label_project_plural) %></th> -->
         <th><%= l(:label_tracker_plural) %></th>
+        <th><%= l(:label_author) %></th>
         <!-- <th><%= l(:field_time_limit) %></th> -->
         <th></th>
       </tr>
@@ -45,6 +46,7 @@
           <td><%= h(final_status) %></td>
           <!-- <td><%# (response.projects.size < 3 ? response.projects.map(&:name).join(', ') : "#{response.projects.count} #{l(:label_project_plural)}") if response.projects.any? %></td> -->
           <td><%= h(trackers) %></td>
+          <td><%= link_to_user response.author %></td>
           <!-- <td><%= l 'time_in_days', days: response.time_limit %></td> -->
 
           <td class="buttons">

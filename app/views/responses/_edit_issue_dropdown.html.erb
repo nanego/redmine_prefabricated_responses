@@ -1,0 +1,24 @@
+<% if @issue.available_responses(User.current).present? %>
+  <div style="margin-bottom: 8px;">
+    <%= select_tag :response_id, options_for_responses_select(@issue), id: 'select-response-tag' %>
+    <%= link_to l(:button_apply), '#', id: 'apply-response-submit', name: :apply_response %>
+  </div>
+<% end %>
+
+<script>
+    $(function () {
+        $('#apply-response-submit').click(function (e) {
+            e.preventDefault()
+            if ($('#select-response-tag :selected').val()) {
+                $.ajax({
+                    url: '<%= apply_responses_path %>',
+                    type: 'post',
+                    data: {
+                        issue_id: <%= @issue.id %>,
+                        response_id: $('#select-response-tag :selected').val()
+                    }
+                })
+            }
+        });
+    });
+</script>

@@ -11,7 +11,7 @@ RSpec.describe Response, :type => :model do
   context "attributes" do
 
     it "has initial_status_ids" do
-      expect(response).to have_attributes(initial_status_ids: [1, 2])
+      expect(response).to have_attributes(initial_status_ids: ['1', '2'])
     end
 
     it "has final_status_id" do
@@ -25,6 +25,14 @@ RSpec.describe Response, :type => :model do
 
     it "has tracker_ids" do
       expect(response).to have_attributes(tracker_ids: nil)
+    end
+
+    it "has an author" do
+      expect(response).to have_attributes(author: User.find(2))
+    end
+
+    it "can be private" do
+      expect(response).to have_attributes(is_private: false)
     end
 
   end

@@ -1,10 +1,11 @@
 class ResponsesController < ApplicationController
 
-  before_action :require_admin
-  layout 'admin'
-
   def index
-    @responses = Response.order("id")
+    @responses = Response.sorted
+    @responses = @responses.visible_by(User.current) unless User.current.admin?
+    respond_to do |format|
+      format.html { render :layout => User.current.admin? ? 'admin' : 'base' }
+    end
   end
 
   def show
@@ -19,6 +20,7 @@ class ResponsesController < ApplicationController
 
   def create
     @response = Response.new
+    @response.author = User.current
     @response.safe_attributes = params[:response]
 
     if @response.save
@@ -74,6 +76,11 @@ class ResponsesController < ApplicationController
       issue.add_response(response, User.current)
     end
     redirect_to issue
+  end
+
+  def apply
+    @issue = Issue.find(params[:issue_id])
+    @response = Response.find(params[:response_id])
   end
 
 end

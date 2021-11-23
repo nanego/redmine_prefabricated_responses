@@ -4,5 +4,5 @@ include ResponsesHelper
 Deface::Override.new :virtual_path  => 'issues/_action_menu',
                      :name          => 'add-responses-to-issue-actions',
                      :insert_top    => '.contextual',
-                     :partial          => 'responses/action_menu_dropdown'
+                     :partial       => 'responses/action_menu_dropdown'
 

@@ -1,0 +1,6 @@
+$('#issue_notes').val(`<%= @response.note.html_safe %>`)
+$('.wysiwyg-editor-tab a[data-type="text"]').click()
+
+<% if @response.final_status_id.present? %>
+$('#issue_status_id').val(`<%= @response.final_status_id %>`)
+<% end %>
