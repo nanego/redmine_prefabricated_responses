@@ -1,4 +1,5 @@
-<% if @issue.available_responses(User.current).present? %>
+<% bottom ||= false %>
+<% if bottom && @issue.available_responses(User.current).present? %>
   <span>
     <%= form_tag({ action: 'add', controller: 'responses' },
                  { id: 'add_response_form' }) do %>
