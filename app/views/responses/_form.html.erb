@@ -21,7 +21,7 @@
                       { label: l(:field_initial_status_plural) },
                       { class: "orga-select2", multiple: true, :onchange => "update_checkbox(this, 'select_all_status', #{IssueStatus.count})" } %>
         <span>
-          <%=  check_box_tag :select_all_status, :select_all_status, (@response.initial_status_ids.present? && @response.initial_status_ids.count == IssueStatus.count + 1 ), :onclick => "selectAll(this, 'response_initial_status_ids')" %>
+          <%=  check_box_tag :select_all_status, :select_all_status, (@response.initial_status_ids.present? && @response.initial_status_ids.count == IssueStatus.count ), :onclick => "selectAll(this, 'response_initial_status_ids')" %>
           <%= label_tag :select_all_status, l(:label_select_all), { class: "checkbox inline" } %>
         </span>
       </p>
@@ -67,7 +67,7 @@
                       { label: l(:label_tracker_plural) },
                       { class: "orga-select2", multiple: true, :onchange => "update_checkbox(this, 'select_all_tracker', #{Tracker.count})" } %>
         <span>
-          <%=  check_box_tag :select_all_tracker, :select_all_tracker, (@response.tracker_ids.present? && @response.tracker_ids.count == Tracker.count + 1 ), :onclick => "selectAll(this, 'response_tracker_ids')" %>
+          <%=  check_box_tag :select_all_tracker, :select_all_tracker, (@response.tracker_ids.present? && @response.tracker_ids.count == Tracker.count ), :onclick => "selectAll(this, 'response_tracker_ids')" %>
           <%= label_tag :select_all_tracker, l(:label_select_all), { class: "checkbox inline" } %>
         </span>
       </p>
