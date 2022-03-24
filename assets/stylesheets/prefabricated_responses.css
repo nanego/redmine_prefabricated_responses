@@ -40,3 +40,11 @@
 #add_response_form #add-response-submit:hover, #add_response_form #add-response-submit:focus {
     background-color: #CCCCCC;
 }
+.link-disable {
+    color: #696969
+}
+
+#apply-response-submit {
+    vertical-align: middle;
+    margin-left: 4px;
+}
