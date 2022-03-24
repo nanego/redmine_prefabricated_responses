@@ -70,8 +70,11 @@ class ResponsesController < ApplicationController
   end
 
   def add
+    return unless params[:response_id].present?
+
     issue = Issue.find(params[:issue_id])
     response = Response.find(params[:response_id])
+    response.note = params[:response_new_note]
     if issue.available_responses(User.current).include?(response)
       issue.add_response(response, User.current)
     end
@@ -81,6 +84,13 @@ class ResponsesController < ApplicationController
   def apply
     @issue = Issue.find(params[:issue_id])
     @response = Response.find(params[:response_id])
+  end
+
+  def update_note
+    response = Response.find(params[:response_id])
+    render :json => {
+      :note => response.note
+    }
   end
 
 end

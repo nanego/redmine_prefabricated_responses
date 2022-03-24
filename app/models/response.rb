@@ -23,13 +23,16 @@ class Response < ActiveRecord::Base
   scope :sorted, -> { order(:name) }
   scope :visible_by, ->(user) { where("is_private = ? OR author_id = ?", false, user.id) }
 
+  before_save :remove_empty_value_from_serialized_field
+
   def allowed_target_projects
     Project.active
   end
 
-  def self.available_for(user: User.current, status: nil)
+  def self.available_for(user: User.current, status: nil, tracker: nil)
     responses = Response.active.visible_by(user)
     responses = responses.select { |r| r.initial_status_ids.include?(status.id.to_s) } if status.present?
+    responses = responses.select { |r| r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
     responses
   end
 
@@ -40,4 +43,9 @@ class Response < ActiveRecord::Base
     end
   end
 
+  def remove_empty_value_from_serialized_field
+    organization_ids.delete("") if organization_ids.present? && (organization_ids.include? "")
+    initial_status_ids.delete("") if initial_status_ids.present? && (initial_status_ids.include? "")
+    tracker_ids.delete("") if tracker_ids.present? && (tracker_ids.include? "")
+  end
 end

@@ -6,8 +6,40 @@
       <%= hidden_field_tag "issue_id", @issue.id %>
       <div class="flex-wrapper">
         <%= select_tag :response_id, options_for_responses_select(@issue) %>
-        <%= submit_tag l(:button_send), id: 'add-response-submit', name: :send_response %>
+        <%= submit_tag l(:button_send), id: 'add-response-submit', name: :send_response, disabled: true , :onclick => "$('#add-response-submit').attr('disabled', true);editResponseNote();" %>
+        <input type="hidden" id="response_new_note" name="response_new_note" value="">
       </div>
     <% end %>
   </span>
 <% end %>
+<script>
+  function editResponseNote() {
+    let new_note = ''
+    $.post('<%= update_note_responses_path %>', { response_id: $('#response_id :selected').val() })
+      .done(function(data) {
+        let note = prompt("<%= l(:label_change_note_of_response) %>:", data.note);
+        //Case of cancel
+        if (note == null) {
+          note = data.note;
+        }
+        $('#response_new_note').val(note);
+        $('#add_response_form').submit();
+      });
+  }
+
+  $(function () {
+      // Here, we can't add class css, because of in prefabricated_responses.css there is style applied to the id
+      let array_css = { "background-color": "#007bff", "border-color": "#621313", "color" : "#fff" };
+      $('#response_id').change(function (e) {
+          e.preventDefault()
+        if ($('#response_id :selected').val()) {
+          $('#add-response-submit').attr("disabled", false);
+          $("#add-response-submit").css(array_css);
+        } else {
+          $("#add-response-submit").removeAttr('style');
+          $('#add-response-submit').attr("disabled", true);
+        }
+
+      });
+  });
+</script>

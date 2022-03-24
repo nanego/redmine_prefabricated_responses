@@ -1,3 +1,7 @@
 # English strings go here for Rails i18n
 en:
   # my_label: "My label"
+  label_select_all: Select all
+  button_send: Send
+  label_responses: Prefabricated responses
+  label_change_note_of_response: Edit the note of this answer

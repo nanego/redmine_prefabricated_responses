@@ -3,6 +3,7 @@ RedmineApp::Application.routes.draw do
     collection do
       post :add
       post :apply
+      post :update_note
     end
   end
 end

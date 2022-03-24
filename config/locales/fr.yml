@@ -7,3 +7,5 @@ fr:
   label_all_responses: Voir toutes les réponses préfabriquées
   label_edit_response: Modifier la réponse préfabriquée
   button_send: Envoyer
+  label_select_all: Tout selectionner
+  label_change_note_of_response: Modifier la note de cette réponse
