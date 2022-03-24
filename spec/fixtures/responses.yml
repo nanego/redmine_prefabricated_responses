@@ -4,7 +4,7 @@ one:
   final_status_id: 5
   note: I'm closing this issue
   enabled: true
-  tracker_ids:
+  tracker_ids: ['1', '2']
   name: Close issue
   author_id: 2
   is_private: false
@@ -14,7 +14,7 @@ two:
   final_status_id:
   note: I'm just addind a note. I don't update anything else.
   enabled: true
-  tracker_ids:
+  tracker_ids: ['1']
   name: This one does not udpate the status
   author_id: 2
   is_private: false
@@ -24,7 +24,7 @@ three:
   final_status_id:
   note: I'm a personnal response. Nobody can see or use it except me.
   enabled: true
-  tracker_ids:
+  tracker_ids: [ ]
   name: Private response
   author_id: 2
   is_private: true

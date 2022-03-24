@@ -24,7 +24,7 @@ RSpec.describe Response, :type => :model do
     end
 
     it "has tracker_ids" do
-      expect(response).to have_attributes(tracker_ids: nil)
+      expect(response).to have_attributes(tracker_ids: ["1", "2"])
     end
 
     it "has an author" do
