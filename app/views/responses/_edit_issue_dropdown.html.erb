@@ -1,7 +1,7 @@
 <% if @issue.available_responses(User.current).present? %>
   <div style="margin-bottom: 8px;">
     <%= select_tag :response_id, options_for_responses_select(@issue), id: 'select-response-tag' %>
-    <%= link_to l(:button_apply), '#', id: 'apply-response-submit', name: :apply_response %>
+    <%= link_to l(:button_apply), '#', id: 'apply-response-submit', name: :apply_response , class: 'icon-prefabricated-responses link-disable' %>
   </div>
 <% end %>
 
@@ -18,6 +18,19 @@
                         response_id: $('#select-response-tag :selected').val()
                     }
                 })
+            }
+        });
+    });
+    $(document).ready(function() {
+        $('#apply-response-submit').removeAttr('href');
+        $('#select-response-tag').change(function (e) {
+            e.preventDefault()
+            if ($('#select-response-tag :selected').val()) {
+                $('#apply-response-submit').prop('href', '#');
+                $("#apply-response-submit").removeClass('link-disable');
+            } else {
+                $('#apply-response-submit').removeAttr('href');
+                $("#apply-response-submit").addClass('link-disable');
             }
         });
     });
