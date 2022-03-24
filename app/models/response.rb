@@ -29,9 +29,10 @@ class Response < ActiveRecord::Base
     Project.active
   end
 
-  def self.available_for(user: User.current, status: nil)
+  def self.available_for(user: User.current, status: nil, tracker: nil)
     responses = Response.active.visible_by(user)
     responses = responses.select { |r| r.initial_status_ids.include?(status.id.to_s) } if status.present?
+    responses = responses.select { |r| r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
     responses
   end
 
