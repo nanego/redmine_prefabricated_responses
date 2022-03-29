@@ -8,6 +8,8 @@ class Response < ActiveRecord::Base
 
   belongs_to :final_status, class_name: 'IssueStatus'
   belongs_to :author, :class_name => 'User'
+  belongs_to :project
+  has_and_belongs_to_many :roles, :foreign_key => "response_id", :join_table => "responses_roles", :dependent => :delete_all
 
   safe_attributes "name", "initial_status_ids", "final_status_id",
                   "time_limit", "note",
@@ -24,6 +26,12 @@ class Response < ActiveRecord::Base
   scope :visible_by, ->(user) { where("is_private = ? OR author_id = ?", false, user.id) }
 
   before_save :remove_empty_value_from_serialized_field
+
+  VISIBILITY_PRIVATE = 0
+  VISIBILITY_ROLES   = 1
+  VISIBILITY_PUBLIC  = 2
+
+  validates :visibility, :inclusion => {:in => [VISIBILITY_PUBLIC, VISIBILITY_ROLES, VISIBILITY_PRIVATE]}
 
   def allowed_target_projects
     Project.active

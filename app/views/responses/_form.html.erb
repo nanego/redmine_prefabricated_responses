@@ -6,14 +6,29 @@
     <div id="response_attributes">
 
       <p><%= f.text_field :name, { label: l(:field_name), required: false, size: 80 } %></p>
-
-      <p>
-        <%= f.check_box :enabled, { label: l(:label_enabled) } %>
-      </p>
-
-      <p>
-        <%= f.check_box :is_private, { label: l(:field_is_private) } %>
-      </p>
+      <%= hidden_field_tag 'response[project_id]', @response.project.present? ? @response.project.id : ''  %>
+      <% if User.current.admin? ||
+      User.current.allowed_to?(:manage_public_responses, @response.project) %>
+        <p>
+          <label><%=l(:field_visible)%></label>
+          <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PRIVATE %>
+            <%= l(:label_visibility_private) %>
+         </label>
+          <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PUBLIC %>
+           <%= l(:label_visibility_public) %>
+          </label>
+          <% if @response.project.present? %>
+            <label class="block">
+              <%= f.radio_button :visibility,   Response::VISIBILITY_ROLES %>
+              <%= l(:label_visibility_roles) %>:
+            </label>
+              <% Role.givable.sorted.each do |role| %>
+                <label class="block role-visibility"><%= check_box_tag 'response[role_ids][]', role.id, @response.roles.include?(role), :id => nil %> <%= role.name %></label>
+              <% end %>
+              <%= hidden_field_tag 'response[role_ids][]', '' %>
+          <% end %>
+        </p>
+      <% end %>
 
       <p>
         <%= f.select :initial_status_ids,
