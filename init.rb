@@ -25,6 +25,7 @@ Redmine::Plugin.register :redmine_prefabricated_responses do
        :caption => :label_prefabricated_responses,
        :html => { :class => 'icon' }
   project_module :prefabricated_responses do
+    permission :manage_public_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
     permission :use_prefabricated_responses, { :responses => [:index] }
     permission :create_prefabricated_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
     permission :make_public_their_prefabricated_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
