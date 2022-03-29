@@ -16,12 +16,15 @@ class ResponsesController < ApplicationController
 
   def new
     @response = Response.new
+    @response.project = params[:project_id] ? Project.find(params[:project_id]) : nil
   end
 
   def create
     @response = Response.new
     @response.author = User.current
+    @response.project = params[:response][:project_id] ? Project.find(params[:response][:project_id]) : nil
     @response.safe_attributes = params[:response]
+    complete_response_attributes
 
     if @response.save
       respond_to do |format|
@@ -44,6 +47,8 @@ class ResponsesController < ApplicationController
   def update
     @response = Response.find(params[:id])
     @response.safe_attributes = params[:response]
+    complete_response_attributes
+
     if @response.save
       respond_to do |format|
         format.html {
@@ -93,4 +98,14 @@ class ResponsesController < ApplicationController
     }
   end
 
+  private
+
+  def complete_response_attributes
+    if User.current.allowed_to?(:manage_public_responses, @response.project) || User.current.admin?
+      @response.visibility = (params[:response] && params[:response][:visibility]) || Response::VISIBILITY_PRIVATE
+      @response.role_ids = params[:response] && params[:response][:role_ids]
+    else
+      @response.visibility = Response::VISIBILITY_PRIVATE
+    end
+  end
 end
