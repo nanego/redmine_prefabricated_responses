@@ -22,7 +22,7 @@ class ResponsesController < ApplicationController
   def create
     @response = Response.new
     @response.author = User.current
-    @response.project = params[:response][:project_id] ? Project.find(params[:response][:project_id]) : nil
+    @response.project = params[:response][:project_id].present? ? Project.find(params[:response][:project_id]) : nil
     @response.safe_attributes = params[:response]
     complete_response_attributes
 
