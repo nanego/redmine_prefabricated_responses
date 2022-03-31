@@ -1,9 +1,11 @@
 <% html_title(l(:label_responses)) %>
 
 <div class="contextual">
-  <%= link_to(l(:label_new_response),
-              {:controller => 'responses', :action => 'new'},
-              :class => 'icon icon-add', :method => :get) %>
+  <% if @project_id.present? %>
+    <%= link_to l(:label_new_response_for_project), project_new_response_path(@project_id), :class => 'icon icon-add' %>
+  <% else %>
+    <%= link_to l(:label_new_response_private), new_response_path, :class => 'icon icon-add' %>
+  <% end %>
 </div>
 
 <h2><span class="icon icon-prefabricated-responses"><%= h "#{l(:label_responses)}" %></span></h2>
@@ -50,7 +52,7 @@
           <!-- <td><%= l 'time_in_days', days: response.time_limit %></td> -->
 
           <td class="buttons">
-            <%= link_to l(:button_show), response_path(response), :class => 'icon icon-list' %>
+            <%= link_to l(:button_show), show_response_path(response), :class => 'icon icon-list' %>
             <%= link_to l(:button_edit), edit_response_path(response), :class => 'icon icon-edit' %>
             <%= delete_link response_path(response) %>
           </td>

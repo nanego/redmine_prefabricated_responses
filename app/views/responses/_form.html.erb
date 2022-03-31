@@ -6,6 +6,9 @@
     <div id="response_attributes">
 
       <p><%= f.text_field :name, { label: l(:field_name), required: false, size: 80 } %></p>
+      <p>
+        <%= f.check_box :enabled, { label: l(:label_enabled) } %>
+      </p>
       <%= hidden_field_tag 'response[project_id]', @response.project.present? ? @response.project.id : ''  %>
       <% if User.current.admin? ||
       User.current.allowed_to?(:manage_public_responses, @response.project) %>
