@@ -13,8 +13,8 @@ fr:
   label_new_response_private: Ajouter une réponse privée
   label_all_responses_for_project: Voir toutes les réponses sur ce projet
   label_all_responses_private: Voir mes réponses privées
-  field_initial_status_plural: Initials statuts
-  label_enabled: Enabled
-  field_final_status: Statuts finals
-  label_auto_update_note: Note de mise à jour automatique
-  hint_no_final_status: Pas de statut final
+  # field_initial_status_plural: Initials statuts
+  # label_enabled: Enabled
+  # field_final_status: Statuts finals
+  # label_auto_update_note: Note de mise à jour automatique
+  # hint_no_final_status: Pas de statut final

@@ -10,7 +10,7 @@ en:
   label_all_responses_for_project: View all responses on this project
   label_all_responses_private: View my private responses
   field_initial_status_plural: Initial statues
-  label_enabled: Enabled
-  field_final_status: Final status
-  label_auto_update_note: Auto update note
-  hint_no_final_status: No final status
+  # label_enabled: Enabled
+  # field_final_status: Final status
+  # label_auto_update_note: Auto update note
+  # hint_no_final_status: No final status
