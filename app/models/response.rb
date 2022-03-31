@@ -47,8 +47,8 @@ class Response < ActiveRecord::Base
       scope
     elsif user.memberships.any?
       scope.where(
-        "author_id = ?" +
-        " OR #{table_name}.visibility IN (?, ?)" +
+        "author_id = ? AND #{table_name}.visibility = ?" +
+        " OR #{table_name}.visibility = ?" +
         " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
         "SELECT DISTINCT res.id FROM #{table_name} res" +
         " INNER JOIN responses_roles res_ro on res_ro.response_id = res.id" +
