@@ -1,6 +1,10 @@
 <% if User.current.admin? || User.current.allowed_to?(:create_prefabricated_responses, @project, :global => true) %>
   <h3><%= l(:label_responses) %></h3>
-  <% project_id = @project.present? ? @project.id : nil %>
-  <%= link_to l(:label_new_response), new_response_path(project_id) %><br>
-  <%= link_to l("label_all_responses"), responses_path %>
+  <% if @project.present? %>
+    <%= link_to l(:label_new_response_for_project), project_new_response_path(@project.id) %><br>
+    <%= link_to l(:label_all_responses_for_project), project_responses_path(@project.id) %>
+  <% else %>
+    <%= link_to l(:label_new_response_private), new_response_path %><br>
+    <%= link_to l(:label_all_responses_private), responses_path %>
+  <% end %>
 <% end %>

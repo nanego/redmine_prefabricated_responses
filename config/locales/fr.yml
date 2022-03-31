@@ -9,3 +9,7 @@ fr:
   button_send: Envoyer
   label_select_all: Tout selectionner
   label_change_note_of_response: Modifier la note de cette réponse
+  label_new_response_for_project: Ajouter une réponse sur ce projet
+  label_new_response_private: Ajouter une réponse privée
+  label_all_responses_for_project: Voir toutes les réponses sur ce projet
+  label_all_responses_private: Voir mes réponses privées

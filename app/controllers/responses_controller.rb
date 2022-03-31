@@ -2,16 +2,20 @@ class ResponsesController < ApplicationController
 
   def index
     @responses = Response.sorted
-    @responses = @responses.visible_by(User.current) unless User.current.admin?
+    @project_id = params[:project_id]
+    @responses = @responses.private_for_user(User.current) unless @project_id.present?
+    @responses = @responses.global_for_project(User.current, params[:project_id]) if @project_id.present?
     respond_to do |format|
       format.html { render :layout => User.current.admin? ? 'admin' : 'base' }
     end
   end
 
   def show
+
     @response = Response.find(params[:id])
     @initial_statuses = IssueStatus.where(id: @response.initial_status_ids)
     @final_status = IssueStatus.find_by_id(@response.final_status_id)
+
   end
 
   def new
@@ -30,7 +34,9 @@ class ResponsesController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_response_successfully_created)
-          redirect_to responses_path
+          redirect_to issues_path unless @response.project.present?
+          redirect_to _project_issues_path(@response.project) if @response.project.present?
+          #redirect_to responses_path
         }
       end
     else
@@ -53,7 +59,9 @@ class ResponsesController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_response_successfully_updated)
-          redirect_to responses_path
+          #redirect_to responses_path
+          redirect_to responses_path unless @response.project.present?
+          redirect_to project_responses_path(@response.project.id) if @response.project.present?
         }
       end
     else
