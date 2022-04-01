@@ -1,5 +1,9 @@
 <div class=contextual>
-  <%= link_to l(:label_all_responses), responses_path, class: "icon-prefabricated-responses" %>
+  <% if @response.project.present? %>
+    <%= link_to l(:label_all_responses_for_project), project_responses_path(@response.project.id), class: "icon-prefabricated-responses" %>
+  <% else %>
+    <%= link_to l(:label_all_responses_private), responses_path, class: "icon-prefabricated-responses" %>
+  <% end %>
 </div>
 
 <h2><%= "#{l(:label_edit_response)}" %></h2>
