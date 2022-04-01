@@ -53,8 +53,10 @@
 
           <td class="buttons">
             <%= link_to l(:button_show), response_path(response), :class => 'icon icon-list' %>
-            <%= link_to l(:button_edit), edit_response_path(response), :class => 'icon icon-edit' %>
-            <%= delete_link response_path(response) %>
+            <% if User.current.admin? || response.author == User.current %>
+              <%= link_to l(:button_edit), edit_response_path(response), :class => 'icon icon-edit' %>
+              <%= delete_link response_path(response) %>
+            <% end %>
           </td>
         </tr>
       <% end %>

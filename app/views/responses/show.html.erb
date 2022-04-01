@@ -10,8 +10,9 @@
 
 <fieldset id="response">
   <legend><%= l(:label_prefabricated_response) %></legend>
-  <span class="label" style="float: right;"><%= link_to l(:button_edit), edit_response_path(@response) %></span>
-
+  <% if User.current.admin? || @response.author == User.current %>
+    <span class="label" style="float: right;"><%= link_to l(:button_edit), edit_response_path(@response) %></span>
+  <% end %>
   <span class="label"><%= l(:label_enabled) %></span> :
   <span class="value <%= @response.enabled ? 'icon icon-ok' : 'icon icon-not-ok' %>" style="margin-left: 10px;"></span><br/>
 
