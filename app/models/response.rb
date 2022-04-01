@@ -15,7 +15,8 @@ class Response < ActiveRecord::Base
                   "time_limit", "note",
                   "author_id", "project_ids",
                   "enabled", "organization_ids",
-                  "tracker_ids", "is_private"
+                  "tracker_ids", "is_private",
+                  "project_id", "visibility"
 
   validates_presence_of :name
   validates_presence_of :author, :if => Proc.new { |response| response.new_record? || response.author_id_changed? }
@@ -27,16 +28,16 @@ class Response < ActiveRecord::Base
   before_save :remove_empty_value_from_serialized_field
 
   VISIBILITY_PRIVATE = 0
-  VISIBILITY_PUBLIC  = 2
   VISIBILITY_ROLES   = 1
+  VISIBILITY_PUBLIC  = 2
 
   validates :visibility, :inclusion => {:in => [VISIBILITY_PUBLIC, VISIBILITY_ROLES, VISIBILITY_PRIVATE]}
   scope :private_for_user, ->(user) do
     if user.admin?
       where("visibility <> ? And author_id = ? AND project_id IS NULL", VISIBILITY_ROLES, user.id)
     else
-        where("visibility = ? And author_id = ? AND project_id IS NULL", VISIBILITY_PRIVATE, user.id)
-     end
+      where("visibility = ? And author_id = ? AND project_id IS NULL", VISIBILITY_PRIVATE, user.id)
+    end
   end
 
   def self.global_for_project(user = User.current, project_id)
