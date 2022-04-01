@@ -42,25 +42,25 @@ RSpec.describe Response, :type => :model do
   end
 
   describe "scope private_for_user" do
-    it "should show private and public response of admin" do
+    it "should show private and public responses when user(admin)" do
       expect(Response.private_for_user(User.find(1)).count).to eq(2)
     end
-    it "should show only private response of user(not admin)" do
+    it "should show only private responses when user(not admin)" do
       expect(Response.private_for_user(User.find(2)).count).to eq(1)
     end
   end
 
   describe "scope global_for_project" do
 
-    it "should show all response on project for user(admin)" do
+    it "should show all responses on project when user(admin)" do
       expect(Response.global_for_project(User.find(1), 1).count).to eq(4)
     end
 
-    it "should show only global response for user(not developer) on project" do
+    it "should show only public responses on project when user(not developer)" do
       expect(Response.global_for_project(User.find(2), 1).count).to eq(2)
     end
 
-    it "should show global response + (his private response) + response for developper role for user(developper) on project" do
+    it "should show public responses + his private responses + response for developper role on project when user(developper)" do
       member = MemberRole.new(:member_id => 1, :role_id => 2)
       member.save
       expect(Response.global_for_project(User.find(2), 1).count).to eq(3)
