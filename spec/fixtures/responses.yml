@@ -8,6 +8,8 @@ one:
   name: Close issue
   author_id: 2
   is_private: false
+  project_id: Null
+  visibility: 0
 two:
   id: 2
   initial_status_ids: ['1', '2']
@@ -18,6 +20,8 @@ two:
   name: This one does not udpate the status
   author_id: 2
   is_private: false
+  project_id: 1
+  visibility: 0
 three:
   id: 3
   initial_status_ids: ['1', '2']
@@ -28,3 +32,54 @@ three:
   name: Private response
   author_id: 2
   is_private: true
+  project_id: 1
+  visibility: 2
+four:
+  id: 4
+  initial_status_ids: ['1', '2', '3']
+  final_status_id:
+  note: Thank you.
+  enabled: true
+  tracker_ids: [ ]
+  name: Public response
+  author_id: 1
+  is_private: true
+  project_id: Null
+  visibility: 2
+five:
+  id: 5
+  initial_status_ids: ['1', '2', '3', '4', '5']
+  final_status_id:
+  note: Thank you.
+  enabled: true
+  tracker_ids: ['1']
+  name: Private response of admin
+  author_id: 1
+  is_private: true
+  project_id: Null
+  visibility: 0
+six:
+  id: 6
+  initial_status_ids: ['2']
+  final_status_id:
+  note: Well.
+  enabled: true
+  tracker_ids: ['1']
+  name: Private response of admin on project 1
+  author_id: 1
+  is_private: true
+  project_id: 1
+  visibility: 0
+seven:
+  id: 7
+  initial_status_ids: ['1', '2', '4']
+  final_status_id:
+  note: Well.
+  enabled: true
+  tracker_ids: ['1', '2']
+  name: Response of admin on project 1 for manager role
+  author_id: 1
+  is_private: true
+  project_id: 1
+  visibility: 1
+

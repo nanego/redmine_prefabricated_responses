@@ -1,6 +1,13 @@
 class ResponsesController < ApplicationController
 
+  before_action :find_optional_project, :only => [:index, :new, :create]
+
   def index
+    # #### TODO (using project_id or identifier) to discuss
+    if params[:project_id].present?
+      return @responses = [] unless Project.find(params[:project_id]).id.to_s == params[:project_id]
+    end
+    # ##############
     @responses = Response.sorted
     @project_id = params[:project_id]
     @responses = @responses.private_for_user(User.current) unless @project_id.present?
