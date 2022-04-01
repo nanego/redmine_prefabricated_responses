@@ -111,3 +111,12 @@
   <%= submit_tag l(:button_save) %>
 
 <% end %>
+<script>
+  $(document).ready(function(){
+    $("input[name='response[visibility]']").change(function(){
+      var roles_checked = $('#response_visibility_1').is(':checked');
+      var private_checked = $('#response_visibility_0').is(':checked');
+      $("input[name='response[role_ids][]'][type=checkbox]").attr('disabled', !roles_checked);
+    }).trigger('change');
+  });
+</script>
