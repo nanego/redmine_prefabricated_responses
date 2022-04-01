@@ -43,7 +43,9 @@ class Response < ActiveRecord::Base
   def self.global_for_project(user = User.current, project_id)
     scope = joins("INNER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
       where("#{table_name}.project_id = ?", project_id)
+      # TODO (get responses with project_id nil but are public) to discuss
     if user.admin?
+      # TODO admin can use private responses of another users to discuss
       #scope.where("#{table_name}.visibility <> ?", VISIBILITY_PRIVATE)
       scope
     elsif user.memberships.any?
