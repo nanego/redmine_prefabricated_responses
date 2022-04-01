@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Response, :type => :model do
 
-  fixtures :responses, :issues, :trackers, :issue_statuses, :projects, :enumerations
+  fixtures :responses, :issues, :trackers, :issue_statuses, :projects, :enumerations, :responses_roles
 
   let!(:response) { Response.find(1) }
   let!(:response_without_final_status) { Response.find(2) }
@@ -35,6 +35,36 @@ RSpec.describe Response, :type => :model do
       expect(response).to have_attributes(is_private: false)
     end
 
+    it "has viisbilty" do
+      expect(response).to have_attributes(visibility: 0)
+    end
+
+  end
+
+  describe "scope private_for_user" do
+    it "should show private and public response of admin" do
+      expect(Response.private_for_user(User.find(1)).count).to eq(2)
+    end
+    it "should show only private response of user(not admin)" do
+      expect(Response.private_for_user(User.find(2)).count).to eq(1)
+    end
+  end
+
+  describe "scope global_for_project" do
+
+    it "should show all response on project for user(admin)" do
+      expect(Response.global_for_project(User.find(1), 1).count).to eq(4)
+    end
+
+    it "should show only global response for user(not developer) on project" do
+      expect(Response.global_for_project(User.find(2), 1).count).to eq(2)
+    end
+
+    it "should show global response + (his private response) + response for developper role for user(developper) on project" do
+      member = MemberRole.new(:member_id => 1, :role_id => 2)
+      member.save
+      expect(Response.global_for_project(User.find(2), 1).count).to eq(3)
+    end
   end
 
 end
