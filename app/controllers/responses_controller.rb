@@ -1,6 +1,9 @@
 class ResponsesController < ApplicationController
 
   before_action :find_optional_project, :only => [:index, :new, :create]
+  before_action :find_response, :only => [:show, :edit, :update, :destroy]
+  before_action :require_admin_or_author, :only =>[:edit]
+  before_action :require_global, :only =>[:show]
 
   def index
     # #### TODO (using project_id or identifier) to discuss
@@ -19,7 +22,6 @@ class ResponsesController < ApplicationController
 
   def show
 
-    @response = Response.find(params[:id])
     @initial_statuses = IssueStatus.where(id: @response.initial_status_ids)
     @final_status = IssueStatus.find_by_id(@response.final_status_id)
 
@@ -54,11 +56,10 @@ class ResponsesController < ApplicationController
   end
 
   def edit
-    @response = Response.find(params[:id])
+
   end
 
   def update
-    @response = Response.find(params[:id])
     @response.safe_attributes = params[:response]
     complete_response_attributes
 
@@ -122,5 +123,34 @@ class ResponsesController < ApplicationController
     else
       @response.visibility = Response::VISIBILITY_PRIVATE
     end
+  end
+
+  def require_admin_or_author
+
+    if !(User.current.admin? || @response.author == User.current)
+      render_403
+      return false
+    end
+    true
+  end
+
+  def find_response
+    return unless require_login
+
+    @response = Response.find(params[:id])
+
+    rescue ActiveRecord::RecordNotFound
+      render_404
+  end
+
+  def require_global
+    if @response.project.present?
+      global = Response.global_for_project(User.current, @response.project.id).include?(@response)
+    else
+      global = Response.private_for_user(User.current).include?(@response)
+    end
+
+    render_403 unless global
+
   end
 end
