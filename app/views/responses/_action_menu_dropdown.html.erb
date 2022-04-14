@@ -2,7 +2,7 @@
 <% if bottom && @issue.available_responses(User.current).present? %>
   <span>
     <%= form_tag({ action: 'add', controller: 'responses' },
-                 { id: 'add_response_form' }) do %>
+                { id: 'add_response_form' }) do %>
       <%= hidden_field_tag "issue_id", @issue.id %>
       <div class="flex-wrapper">
         <%= select_tag :response_id, options_for_responses_select(@issue) %>
@@ -14,16 +14,17 @@
 <% end %>
 <script>
   function editResponseNote() {
-    let new_note = ''
+    let new_note = '';
     $.post('<%= update_note_responses_path %>', { response_id: $('#response_id :selected').val() })
       .done(function(data) {
         let note = prompt("<%= l(:label_change_note_of_response) %>:", data.note);
         //Case of cancel
-        if (note == null) {
-          note = data.note;
+        if (note) {
+          $('#response_new_note').val(note);
+          $('#add_response_form').submit();
+        } else {
+          $('#add-response-submit').attr("disabled", false);
         }
-        $('#response_new_note').val(note);
-        $('#add_response_form').submit();
       });
   }
 
