@@ -70,8 +70,8 @@ class Response < ActiveRecord::Base
     private_responses = Response.active.private_for_user(user)
     global_responses = Response.active.global_for_project(user, project_id)
     responses = private_responses.to_a + global_responses.to_a
-    responses = responses.select { |r| r.initial_status_ids.include?(status.id.to_s) } if status.present?
-    responses = responses.select { |r| r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
+    responses = responses.select { |r| r.initial_status_ids.empty? || r.initial_status_ids.include?(status.id.to_s) } if status.present?
+    responses = responses.select { |r| r.tracker_ids.empty? || r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
     responses.uniq
   end
 

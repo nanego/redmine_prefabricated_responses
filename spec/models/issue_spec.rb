@@ -20,7 +20,7 @@ RSpec.describe Issue, :type => :model do
     end
 
     it "returns an array of responses" do
-      expect(issue_7.available_responses.size).to eq 2
+      expect(issue_7.available_responses.size).to eq 3
     end
 
     it "does not return responses if current status does not match configured status in rules" do
@@ -34,17 +34,17 @@ RSpec.describe Issue, :type => :model do
       expect(issue_7.available_responses).to include response
     end
 
-    it "returns an array of responses when(initial_status_ids contains status new) (tracker_ids contains bug), " do
+    it "returns an array of responses when(initial_status_ids are empty or contains status new) (tracker_ids are empty or contains bug) " do
       User.current = User.find(1)
       res = Response.find(6)
 
-      expect(issue_7.available_responses.size).to eq 3
+      expect(issue_7.available_responses.size).to eq 5
       expect(issue_7.available_responses).to_not include(res)
 
       res.initial_status_ids << "1"
       res.save
 
-      expect(issue_7.available_responses.size).to eq 4
+      expect(issue_7.available_responses.size).to eq 6
       expect(issue_7.available_responses).to include(res)
     end
   end
