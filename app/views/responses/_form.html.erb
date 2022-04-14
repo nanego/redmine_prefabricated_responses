@@ -16,9 +16,9 @@
           <label><%=l(:field_visible)%></label>
           <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PRIVATE %>
             <%= l(:label_visibility_private) %>
-         </label>
+          </label>
           <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PUBLIC %>
-           <%= l(:label_visibility_public) %>
+            <%= l(:label_visibility_public) %>
           </label>
           <% if @response.project.present? %>
             <label class="block">
@@ -33,6 +33,11 @@
         </p>
       <% end %>
 
+      <% if @response.project.present? %>
+        <p>
+          <%= f.text_field :project, disabled: true %>
+        </p>
+      <% end %>
       <p>
         <%= f.select :initial_status_ids,
                       options_for_select(IssueStatus.sorted.map { |s| [s.name, s.id] }, @response.initial_status_ids),
@@ -46,9 +51,9 @@
 
       <p>
         <%= f.select :final_status_id,
-                     options_for_select(IssueStatus.sorted.map { |s| [s.name, s.id] }, @response.final_status_id),
-                     { label: l(:field_final_status), required: false, include_blank: true },
-                     { class: "orga-select2", multiple: false } %>
+                    options_for_select(IssueStatus.sorted.map { |s| [s.name, s.id] }, @response.final_status_id),
+                    { label: l(:field_final_status), required: false, include_blank: true },
+                    { class: "orga-select2", multiple: false } %>
         <span><i><%= l('hint_no_final_status') %></i></span>
       </p>
 
@@ -61,8 +66,8 @@
         <%= f.label l(:label_project_plural) %>
         <span class="select_projects" id="select_projects" style="display: block;">
               <%# f.select :project_ids, project_tree_options_for_select(@response.allowed_target_projects, :selected => @response.projects),
-                           { :required => false, label: "" },
-                           { :multiple => true, :size => 10, style: "display:none;" } %>
+                          { :required => false, label: "" },
+                          { :multiple => true, :size => 10, style: "display:none;" } %>
           <span id="my_projects">
               <%# @response.projects.each do |project| %>
                 <%# content_tag("span", project.name.gsub(/ /, "&nbsp;").html_safe, class: "list_projects_names") %>
@@ -99,9 +104,9 @@
       <% if false #Redmine::Plugin.installed?(:redmine_organizations) %>
         <p>
           <%= f.select :organization_ids,
-                       options_for_select(nested_set_options(Organization) { |i| i.fullname }, @response.organization_ids),
-                       { label: l(:field_issues_assigned_to) },
-                       { class: "orga-select2", multiple: true } %>
+                      options_for_select(nested_set_options(Organization) { |i| i.fullname }, @response.organization_ids),
+                      { label: l(:field_issues_assigned_to) },
+                      { class: "orga-select2", multiple: true } %>
         </p>
       <% end %>
 
