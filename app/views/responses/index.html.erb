@@ -4,7 +4,7 @@
   <% if @project_id.present? %>
     <%= link_to l(:label_new_response_for_project), new_project_response_path(@project_id), :class => 'icon icon-add' %>
   <% else %>
-    <%= link_to l(:label_new_response_private), new_response_path, :class => 'icon icon-add' %>
+    <%= link_to l(:label_new_response), new_response_path, :class => 'icon icon-add' %>
   <% end %>
 </div>
 

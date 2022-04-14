@@ -6,9 +6,9 @@ en:
   label_responses: Prefabricated responses
   label_change_note_of_response: Edit the note of this answer
   label_new_response_for_project: Add a response on this project
-  label_new_response_private: Add a private response
+  label_new_response: Add a prefabricated response
   label_all_responses_for_project: View all responses on this project
-  label_all_responses_private: View my private responses
+  label_all_responses: View my prefabricated responses
   field_initial_status_plural: Initial statues
   # label_enabled: Enabled
   # field_final_status: Final status
