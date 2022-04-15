@@ -40,13 +40,15 @@ class Response < ActiveRecord::Base
     end
   end
 
+  # Get responses with project_id nil but are public
+  scope :public_for_user, ->(user) do
+    where("visibility = ? And author_id <> ? AND project_id IS NULL", VISIBILITY_PUBLIC, user.id)
+  end
+
   def self.global_for_project(user = User.current, project_id)
     scope = joins("INNER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
       where("#{table_name}.project_id = ?", project_id)
-      # TODO (get responses with project_id nil but are public) to discuss
     if user.admin?
-      # TODO admin can use private responses of another users to discuss
-      #scope.where("#{table_name}.visibility <> ?", VISIBILITY_PRIVATE)
       scope
     elsif user.memberships.any?
       scope.where(
@@ -69,7 +71,8 @@ class Response < ActiveRecord::Base
   def self.available_for(user: User.current, status: nil, tracker: nil, project_id: nil)
     private_responses = Response.active.private_for_user(user)
     global_responses = Response.active.global_for_project(user, project_id)
-    responses = private_responses.to_a + global_responses.to_a
+    public_responses = Response.active.public_for_user(user) if user.allowed_to?(:use_public_responses, Project.find(project_id))
+    responses = private_responses.to_a + global_responses.to_a + public_responses.to_a
     responses = responses.select { |r| r.initial_status_ids.empty? || r.initial_status_ids.include?(status.id.to_s) } if status.present?
     responses = responses.select { |r| r.tracker_ids.empty? || r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
     responses.uniq
