@@ -9,10 +9,10 @@ en:
   label_new_response: Add a prefabricated response
   label_all_responses_for_project: View all responses on this project
   label_all_responses: View my prefabricated responses
-  field_initial_status_plural: Initial statues
-  # label_enabled: Enabled
-  # field_final_status: Final status
-  # label_auto_update_note: Auto update note
-  # hint_no_final_status: No final status
+  field_initial_status_plural: Initial statuses
+  label_enabled: Enabled
+  field_final_status: Status after change
+  label_auto_update_note: Notes added to the issue
+  hint_no_final_status: Leave empty if you do not want to update the status
   label_author: Autor
   label_edit_note_before_sending: Edit the note before sending
