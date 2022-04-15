@@ -1,0 +1,21 @@
+<h3 class="title"><%=l(:label_edit_note_before_sending)%></h3>
+<div class="box tabular">
+  <p>
+    <%= label_tag l(:label_auto_update_note) %>
+    <%= text_area_tag :response_note, @response.note, rows: 6  %>
+  </p>
+  <%= hidden_field_tag "issue_id", @issue.id %>
+  <%= hidden_field_tag "response_id", @response.id %>
+</div>
+<p class="buttons">
+  <%= submit_tag l(:button_update), :name => nil, onclick: "update_note();" %>
+  <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+</p>
+
+<script>
+  function update_note() {
+    $('#response_new_note').val($('#response_note').val());
+    hideModal(this);
+    $('#add_response_form').submit();
+  }
+</script>
