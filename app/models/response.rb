@@ -15,16 +15,16 @@ class Response < ActiveRecord::Base
                   "time_limit", "note",
                   "author_id", "project_ids",
                   "enabled", "organization_ids",
-                  "tracker_ids", "is_private",
+                  "tracker_ids",
                   "project_id", "visibility"
 
   validates_presence_of :name
   validates_presence_of :author, :if => Proc.new { |response| response.new_record? || response.author_id_changed? }
 
   scope :active, -> { where(enabled: true) }
-  scope :not_private, -> { where(is_private: false) }
+  #scope :not_private, -> { where(is_private: false) }
   scope :sorted, -> { order(:name) }
-  scope :visible_by, ->(user) { where("is_private = ? OR author_id = ?", false, user.id) }
+  #scope :visible_by, ->(user) { where("is_private = ? OR author_id = ?", false, user.id) }
   before_save :remove_empty_value_from_serialized_field
 
   VISIBILITY_PRIVATE = 0
@@ -78,7 +78,7 @@ class Response < ActiveRecord::Base
   # Returns true if usr or current user is allowed to view the response
   def visible?(usr = nil)
     (usr || User.current).allowed_to?(:view_prefabricated_responses, self.project) do |role, user|
-      user.admin? || !self.is_private? || self.author == user
+      user.admin? || self.author == user
     end
   end
 
