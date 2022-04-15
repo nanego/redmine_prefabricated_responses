@@ -127,7 +127,7 @@ class ResponsesController < ApplicationController
 
   def require_admin_or_author
 
-    if !(User.current.admin? || @response.author == User.current)
+    if !(User.current.admin? || @response.author == User.current || User.current.allowed_to?(:edit_public_responses, @response.project))
       render_403
       return false
     end

@@ -28,6 +28,7 @@ Redmine::Plugin.register :redmine_prefabricated_responses do
     permission :manage_public_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
     permission :use_public_responses, { :responses => [:index] }
     permission :create_prefabricated_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
-    #permission :make_public_their_prefabricated_responses, { :responses => [:index, :new, :create, :edit, :update, :destroy] }
+    permission :edit_public_responses, { :responses => [:edit, :update] }
+    permission :delete_public_responses, { :responses => [:destroy] }
   end
 end
