@@ -43,9 +43,8 @@ class ResponsesController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_response_successfully_created)
-          redirect_to issues_path unless @response.project.present?
-          redirect_to _project_issues_path(@response.project) if @response.project.present?
-          #redirect_to responses_path
+          redirect_to responses_path unless @response.project.present?
+          redirect_to project_responses_path(@response.project.id) if @response.project.present?
         }
       end
     else
