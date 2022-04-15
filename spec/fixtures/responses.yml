@@ -7,7 +7,6 @@ one:
   tracker_ids: ['1', '2']
   name: Close issue
   author_id: 2
-  is_private: false
   project_id: Null
   visibility: 0
 two:
@@ -19,7 +18,6 @@ two:
   tracker_ids: ['1']
   name: This one does not udpate the status
   author_id: 2
-  is_private: false
   project_id: 1
   visibility: 0
 three:
@@ -31,7 +29,6 @@ three:
   tracker_ids: [ ]
   name: Private response
   author_id: 2
-  is_private: true
   project_id: 1
   visibility: 2
 four:
@@ -43,7 +40,6 @@ four:
   tracker_ids: [ ]
   name: Public response
   author_id: 1
-  is_private: true
   project_id: Null
   visibility: 2
 five:
@@ -55,7 +51,6 @@ five:
   tracker_ids: ['1']
   name: Private response of admin
   author_id: 1
-  is_private: true
   project_id: Null
   visibility: 0
 six:
@@ -67,7 +62,6 @@ six:
   tracker_ids: ['1']
   name: Private response of admin on project 1
   author_id: 1
-  is_private: true
   project_id: 1
   visibility: 0
 seven:
@@ -79,7 +73,6 @@ seven:
   tracker_ids: ['1', '2']
   name: Response of admin on project 1 for manager role
   author_id: 1
-  is_private: true
   project_id: 1
   visibility: 1
 
