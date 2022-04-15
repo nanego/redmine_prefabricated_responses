@@ -13,10 +13,10 @@ fr:
   label_new_response: Ajouter une réponse préfabriquée
   label_all_responses_for_project: Voir toutes les réponses sur ce projet
   label_all_responses: Voir mes réponses préfabriquées
-  # field_initial_status_plural: Initials statuts
-  # label_enabled: Enabled
-  # field_final_status: Statuts finals
-  # label_auto_update_note: Note de mise à jour automatique
-  # hint_no_final_status: Pas de statut final
+  field_initial_status_plural: Statuts de départ
+  label_enabled: Actif
+  field_final_status: Statut après changement
+  label_auto_update_note: Note ajoutée à la demande
+  hint_no_final_status: Laisser le champ vide si le statut ne doit pas être modifié
   label_author: Auteur
   label_edit_note_before_sending: Modifier la note avant l'envoi
