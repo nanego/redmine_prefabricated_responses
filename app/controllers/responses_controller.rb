@@ -108,10 +108,11 @@ class ResponsesController < ApplicationController
   end
 
   def update_note
-    response = Response.find(params[:response_id])
-    render :json => {
-      :note => response.note
-    }
+    @response = Response.find(params[:response_id])
+    @issue = Issue.find(params[:issue_id])
+    respond_to do |format|
+      format.js
+    end
   end
 
   private

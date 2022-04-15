@@ -15,3 +15,4 @@ en:
   # label_auto_update_note: Auto update note
   # hint_no_final_status: No final status
   label_author: Autor
+  label_edit_note_before_sending: Edit the note before sending

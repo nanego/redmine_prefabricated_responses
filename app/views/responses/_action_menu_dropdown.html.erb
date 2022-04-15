@@ -15,32 +15,24 @@
 <script>
   function editResponseNote() {
     let new_note = '';
-    $.post('<%= update_note_responses_path %>', { response_id: $('#response_id :selected').val() })
+    $.post('<%= update_note_responses_path %>', { response_id: $('#response_id :selected').val(), issue_id: $('#issue_id').val() })
       .done(function(data) {
-        let note = prompt("<%= l(:label_change_note_of_response) %>:", data.note);
-        //Case of cancel
-        if (note) {
-          $('#response_new_note').val(note);
-          $('#add_response_form').submit();
-        } else {
-          $('#add-response-submit').attr("disabled", false);
-        }
+        $('#add-response-submit').attr("disabled", false);       
       });
   }
 
   $(function () {
-      // Here, we can't add class css, because of in prefabricated_responses.css there is style applied to the id
-      let array_css = { "background-color": "#007bff", "border-color": "#621313", "color" : "#fff" };
-      $('#response_id').change(function (e) {
-          e.preventDefault()
-        if ($('#response_id :selected').val()) {
-          $('#add-response-submit').attr("disabled", false);
-          $("#add-response-submit").css(array_css);
-        } else {
-          $("#add-response-submit").removeAttr('style');
-          $('#add-response-submit').attr("disabled", true);
+    // Here, we can't add class css, because of in prefabricated_responses.css there is style applied to the id
+    let array_css = { "background-color": "#007bff", "border-color": "#621313", "color" : "#fff" };
+    $('#response_id').change(function (e) {
+        e.preventDefault()
+      if ($('#response_id :selected').val()) {
+        $('#add-response-submit').attr("disabled", false);
+        $("#add-response-submit").css(array_css);
+      } else {
+        $("#add-response-submit").removeAttr('style');
+        $('#add-response-submit').attr("disabled", true);
         }
-
       });
   });
 </script>
