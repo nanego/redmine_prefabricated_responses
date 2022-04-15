@@ -20,3 +20,8 @@ fr:
   hint_no_final_status: Laisser le champ vide si le statut ne doit pas être modifié
   label_author: Auteur
   label_edit_note_before_sending: Modifier la note avant l'envoi
+  permission_use_public_responses: Utiliser les réponses publiques
+  permission_manage_public_responses: Gérer les réponses publiques
+  permission_create_prefabricated_responses: Créer des réponses préfabriquées
+  permission_edit_public_responses: Modifier les réponses publiques
+  permission_delete_public_responses: Supprimer les réponses publiques
