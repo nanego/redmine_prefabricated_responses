@@ -40,7 +40,7 @@ class Response < ActiveRecord::Base
     end
   end
 
-  # Get responses with project_id nil but are public
+  # Get public responses with project_id nil
   scope :public_for_user, ->(user) do
     where("visibility = ? And author_id <> ? AND project_id IS NULL", VISIBILITY_PUBLIC, user.id)
   end
