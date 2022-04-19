@@ -37,14 +37,14 @@ RSpec.describe Response, :type => :model do
 
   end
 
-  # describe "scope private_for_user" do
-  #   it "should show private and public responses when user(admin)" do
-  #     expect(Response.private_for_user(User.find(1)).count).to eq(2)
-  #   end
-  #   it "should show only private responses when user(not admin)" do
-  #     expect(Response.private_for_user(User.find(2)).count).to eq(1)
-  #   end
-  # end
+  describe "scope public_for_user" do
+    it "should show all public responses with project_id when user(admin)" do
+      expect(Response.public_for_user(User.find(1)).count).to eq(1)
+    end
+    it "should show all public responses with project_id when user(not admin)" do
+      expect(Response.public_for_user(User.find(2)).count).to eq(1)
+    end
+  end
 
   describe "scope global_for_project" do
 
