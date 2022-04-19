@@ -71,8 +71,19 @@ seven:
   note: Well.
   enabled: true
   tracker_ids: ['1', '2']
-  name: Response of admin on project 1 for manager role
+  name: Response of admin on project 1 for developper role
   author_id: 1
   project_id: 1
   visibility: 1
+eight:
+  id: 8
+  initial_status_ids: ['2']
+  final_status_id: 5
+  note: I'm rejecting this issue
+  enabled: true
+  tracker_ids: ['2']
+  name: Reject issue
+  author_id: 2
+  project_id: Null
+  visibility: 2
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Issue, :type => :model do
 
   fixtures :responses, :issues, :trackers, :issue_statuses, :enabled_modules,
-           :projects, :enumerations, :users, :roles, :members, :member_roles
+            :projects, :enumerations, :users, :roles, :members, :member_roles
 
   let!(:response) { Response.find(1) }
   let!(:response_without_final_status) { Response.find(2) }
@@ -50,9 +50,34 @@ RSpec.describe Issue, :type => :model do
   end
 
   context "add responses" do
-    pending "adds a response to a specific issue"
-    pending "can add a response without changing the status"
-    pending "can add a response without final status"
+    it "adds a response to a specific issue" do
+      issue_7.add_response(response_without_final_status, User.find(1))
+      expect(Journal.last.notes).to eq(Response.find(2).note)
+    end
+
+    it "can add a response without changing the status" do
+      issue_7.add_response(response_without_final_status, User.find(1))
+      expect(issue_7.status.id).to eq(1)
+    end
+
+    it "can add a response without final status" do
+      issue_7.add_response(response, User.find(1))
+      expect(issue_7.status.id).to eq(response.final_status_id)
+    end
   end
 
+  context "test permission for a public response of admin" do
+    it "should not be included when the user does not have the permission(use_public_responses)" do
+      expect(Issue.find(1).available_responses(User.find(2)).count).to eq(3)
+    end
+
+    it "should be included only when the user has the permission(use_public_responses)" do
+      project = Project.find(1)
+      user = User.find(2)
+      project.enabled_module_names = ['issue_tracking', 'prefabricated_responses']
+      role = User.find(2).roles_for_project(project).first
+      role.add_permission! :use_public_responses
+      expect(Issue.find(1).available_responses(user).count).to eq(4)
+    end
+  end
 end
