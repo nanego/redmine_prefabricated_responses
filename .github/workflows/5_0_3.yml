@@ -1,8 +1,8 @@
-name: Tests 4.2.7
+name: Tests 5.0.3
 
 env:
   PLUGIN_NAME: redmine_prefabricated_responses
-  REDMINE_VERSION: 4.2.7
+  REDMINE_VERSION: 5.0.3
   RAILS_ENV: test
 
 on:

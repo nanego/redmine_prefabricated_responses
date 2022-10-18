@@ -14,12 +14,12 @@ Please apply general instructions for plugins [here](http://www.redmine.org/wiki
 
 |Plugin branch| Redmine Version | Test Status       |
 |-------------|-----------------|-------------------|
-|master       | 4.2.7           | [![4.2.7][1]][5]  |
-|master       | 5.0.2           | [![5.0.2][2]][5]  |
+|master       | 4.2.8           | [![4.2.8][1]][5]  |
+|master       | 5.0.3           | [![5.0.3][2]][5]  |
 |master       | master          | [![master][3]][5] |
 
-[1]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/4_2_7.yml/badge.svg
-[2]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/5_0_2.yml/badge.svg
+[1]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/4_2_8.yml/badge.svg
+[2]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/5_0_3.yml/badge.svg
 [3]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/master.yml/badge.svg
 [5]: https://github.com/nanego/redmine_prefabricated_responses/actions
 
