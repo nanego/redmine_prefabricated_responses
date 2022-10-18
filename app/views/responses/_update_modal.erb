@@ -8,8 +8,8 @@
   <%= hidden_field_tag "response_id", @response.id %>
 </div>
 <p class="buttons">
-  <%= submit_tag l(:button_edit), :name => nil, onclick: "update_note();" %>
   <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+  <%= submit_tag l(:button_send), :name => nil, onclick: "update_note();" %>
 </p>
 
 <script>
