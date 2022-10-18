@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Issue, :type => :model do
 
   fixtures :responses, :issues, :trackers, :issue_statuses, :enabled_modules,
-            :projects, :enumerations, :users, :roles, :members, :member_roles
+           :projects, :enumerations, :users, :roles, :members, :member_roles
 
   let!(:response) { Response.find(1) }
   let!(:response_without_final_status) { Response.find(2) }
@@ -67,11 +67,11 @@ RSpec.describe Issue, :type => :model do
   end
 
   context "test permission for a public response of admin" do
-    it "should not be included when the user does not have the permission(use_public_responses)" do
+    it "is not included when the user does not have the permission(use_public_responses)" do
       expect(Issue.find(1).available_responses(User.find(2)).count).to eq(3)
     end
 
-    it "should be included only when the user has the permission(use_public_responses)" do
+    it "is included only when the user has the permission(use_public_responses)" do
       project = Project.find(1)
       user = User.find(2)
       project.enabled_module_names = ['issue_tracking', 'prefabricated_responses']

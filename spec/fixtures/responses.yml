@@ -13,7 +13,7 @@ two:
   id: 2
   initial_status_ids: ['1', '2']
   final_status_id:
-  note: I'm just addind a note. I don't update anything else.
+  note: I'm just adding a note. I don't update anything else.
   enabled: true
   tracker_ids: ['1']
   name: This one does not udpate the status
@@ -24,7 +24,7 @@ three:
   id: 3
   initial_status_ids: ['1', '2']
   final_status_id:
-  note: I'm a personnal response. Nobody can see or use it except me.
+  note: I'm a personal response. Nobody can see or use it except me.
   enabled: true
   tracker_ids: [ ]
   name: Private response
@@ -71,7 +71,7 @@ seven:
   note: Well.
   enabled: true
   tracker_ids: ['1', '2']
-  name: Response of admin on project 1 for developper role
+  name: Response of admin on project 1 for developer role
   author_id: 1
   project_id: 1
   visibility: 1

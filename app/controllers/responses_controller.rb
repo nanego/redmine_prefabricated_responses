@@ -2,8 +2,8 @@ class ResponsesController < ApplicationController
 
   before_action :find_optional_project, :only => [:index, :new, :create]
   before_action :find_response, :only => [:show, :edit, :update, :destroy]
-  before_action :require_admin_or_author, :only =>[:edit]
-  before_action :require_global, :only =>[:show]
+  before_action :require_admin_or_author, :only => [:edit]
+  before_action :require_global, :only => [:show]
 
   def index
     # #### TODO (using project_id or identifier) to discuss
@@ -139,8 +139,8 @@ class ResponsesController < ApplicationController
 
     @response = Response.find(params[:id])
 
-    rescue ActiveRecord::RecordNotFound
-      render_404
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def require_global
