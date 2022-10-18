@@ -1,6 +1,4 @@
-# English strings go here for Rails i18n
 en:
-  # my_label: "My label"
   label_select_all: Select all
   button_send: Send
   label_responses: Prefabricated responses
@@ -14,5 +12,9 @@ en:
   field_final_status: Status after change
   label_auto_update_note: Notes added to the issue
   hint_no_final_status: Leave empty if you do not want to update the status
-  label_author: Autor
+  label_author: Author
   label_edit_note_before_sending: Edit the note before sending
+  conditional_or: or
+  button_apply_to_form: Apply to form
+  notice_response_successfully_added: The response has been added.
+  notice_response_not_added: The response has not been added.

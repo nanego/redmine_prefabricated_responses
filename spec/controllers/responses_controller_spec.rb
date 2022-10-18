@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ResponsesController, type: :controller do
   render_views
 
-  fixtures :users, :issues, :issue_statuses, :responses, :trackers, :projects, :enumerations, :responses_roles,
-           :journals, :roles, :members, :member_roles
+  fixtures :users, :issues, :issue_statuses, :responses, :responses_roles, :trackers, :projects, :enumerations,
+           :journals, :roles, :members, :member_roles, :issue_categories
 
   include Redmine::I18n
 

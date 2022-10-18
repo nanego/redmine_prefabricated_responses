@@ -91,14 +91,17 @@ class ResponsesController < ApplicationController
 
   def add
     return unless params[:response_id].present?
-
     issue = Issue.find(params[:issue_id])
     response = Response.find(params[:response_id])
     response.note = params[:response_new_note]
     if issue.available_responses(User.current).include?(response)
-      issue.add_response(response, User.current)
+      saved = issue.add_response(response, User.current)
     end
-    redirect_to issue
+    if saved
+      redirect_to issue, :notice => l(:notice_response_successfully_added)
+    else
+      redirect_to issue, :alert => l(:notice_response_not_added)
+    end
   end
 
   def apply

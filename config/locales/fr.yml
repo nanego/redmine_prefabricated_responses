@@ -4,15 +4,13 @@ fr:
   label_prefabricated_response: Réponse préfabriquée
   no_responses: Aucune réponse préfabriquée n'a été configurée
   label_new_response: Ajouter une réponse préfabriquée
-  label_all_responses: Voir toutes les réponses préfabriquées
+  label_all_responses: Voir mes réponses préfabriquées
   label_edit_response: Modifier la réponse préfabriquée
   button_send: Envoyer
   label_select_all: Tout selectionner
   label_change_note_of_response: Modifier la note de cette réponse
   label_new_response_for_project: Ajouter une réponse sur ce projet
-  label_new_response: Ajouter une réponse préfabriquée
   label_all_responses_for_project: Voir toutes les réponses sur ce projet
-  label_all_responses: Voir mes réponses préfabriquées
   field_initial_status_plural: Statuts de départ
   label_enabled: Actif
   field_final_status: Statut après changement
@@ -25,3 +23,7 @@ fr:
   permission_create_prefabricated_responses: Créer des réponses préfabriquées
   permission_edit_public_responses: Modifier les réponses publiques
   permission_delete_public_responses: Supprimer les réponses publiques
+  conditional_or: ou
+  button_apply_to_form: Appliquer sur le formulaire
+  notice_response_successfully_added: La réponse a bien été ajoutée
+  notice_response_not_added: La réponse n'a pas pu être ajoutée

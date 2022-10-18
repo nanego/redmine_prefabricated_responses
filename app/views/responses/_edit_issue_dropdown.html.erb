@@ -1,7 +1,7 @@
 <% if @issue.available_responses(User.current).present? %>
   <div style="margin-bottom: 8px;">
     <%= select_tag :response_id, options_for_responses_select(@issue), id: 'select-response-tag' %>
-    <%= link_to l(:button_apply), '#', id: 'apply-response-submit', name: :apply_response , class: 'icon-prefabricated-responses link-disable' %>
+    <%= link_to l(:button_apply_to_form), '#', id: 'apply-response-submit', name: :apply_response , class: 'icon-prefabricated-responses link-disable' %>
   </div>
 <% end %>
 
