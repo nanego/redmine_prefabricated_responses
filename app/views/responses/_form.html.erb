@@ -113,7 +113,14 @@
     </div>
   </div>
 
-  <%= submit_tag l(:button_save) %>
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <% if @response.project.present? %>
+      <%= link_to l(:button_cancel), project_responses_path(@response.project.id) %>
+    <% else %>
+      <%= link_to l(:button_cancel), responses_path %>
+    <% end %>
+  </p>
 
 <% end %>
 <script>

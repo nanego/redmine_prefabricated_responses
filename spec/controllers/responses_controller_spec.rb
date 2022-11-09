@@ -164,4 +164,22 @@ describe ResponsesController, type: :controller do
     end
   end
 
+  describe "Responses index" do
+    before do
+      @request.session[:user_id] = 1
+      User.current = User.find(1)
+    end
+
+    it "should show All statuses when all statuses are checked" do      
+      # Response.find(5).initial_status_ids: ['1', '2', '3', '4', '5'], add id 6 to select all statuses
+      res_test = Response.find(5)
+      res_test.initial_status_ids << "6"
+      res_test.save
+
+      get :index
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("All statues") 
+    end
+  end
 end

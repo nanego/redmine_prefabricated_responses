@@ -24,6 +24,11 @@
   $(function () {
     // Here, we can't add class css, because of in prefabricated_responses.css there is style applied to the id
     let array_css = { "background-color": "#007bff", "border-color": "#621313", "color" : "#fff" };
+    // if only one choice is available, it should be pre-selected
+    if ($('#response_id option').length == 2){
+      $('#response_id option:eq(1)').prop('selected', true);
+      $('#response_id').trigger('change');
+    }
     $('#response_id').change(function (e) {
         e.preventDefault()
       if ($('#response_id :selected').val()) {
