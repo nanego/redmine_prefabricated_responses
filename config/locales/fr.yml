@@ -19,3 +19,4 @@ fr:
   # label_auto_update_note: Note de mise à jour automatique
   # hint_no_final_status: Pas de statut final
   label_author: Auteur
+  label_all_status: Tous les statuts

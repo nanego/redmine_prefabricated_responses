@@ -38,7 +38,7 @@
       </thead>
       <tbody>
       <% @responses.each do |response| %>
-        <% initial_statuses = IssueStatus.where(id: response.initial_status_ids).join(', ') %>
+        <% initial_statuses = (response.initial_status_ids.length == IssueStatus.all.length) ? l(:label_all_status) : IssueStatus.where(id: response.initial_status_ids).join(', ') %>
         <% final_status = IssueStatus.where(id: response.final_status_id).join(', ') %>
         <% trackers = Tracker.where(id: response.tracker_ids).join(', ') %>
         <tr class="response">

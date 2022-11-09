@@ -16,9 +16,9 @@
           <label><%=l(:field_visible)%></label>
           <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PRIVATE %>
             <%= l(:label_visibility_private) %>
-         </label>
+          </label>
           <label class="block"><%= f.radio_button :visibility,   Response::VISIBILITY_PUBLIC %>
-           <%= l(:label_visibility_public) %>
+            <%= l(:label_visibility_public) %>
           </label>
           <% if @response.project.present? %>
             <label class="block">
@@ -107,9 +107,14 @@
 
     </div>
   </div>
-
-  <%= submit_tag l(:button_save) %>
-
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <% if @response.project.present? %>
+      <%= link_to l(:button_cancel), project_responses_path(@response.project.id) %>
+    <% else %>
+      <%= link_to l(:button_cancel), responses_path %>
+    <% end %>
+  </p>
 <% end %>
 <script>
   $(document).ready(function(){
