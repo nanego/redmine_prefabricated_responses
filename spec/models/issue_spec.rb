@@ -60,9 +60,16 @@ RSpec.describe Issue, :type => :model do
       expect(issue_7.status.id).to eq(1)
     end
 
-    it "can add a response without final status" do
+    it "can add a response with final status" do
       issue_7.add_response(response, User.find(1))
       expect(issue_7.status.id).to eq(response.final_status_id)
+    end
+
+    it "can add a response with assigned to user" do
+      expect(issue_7.assigned_to_id).to be_nil
+      response.assigned_to_id =  2
+      issue_7.add_response(response, User.find(1))
+      expect(issue_7.assigned_to_id).to eq(2)
     end
   end
 

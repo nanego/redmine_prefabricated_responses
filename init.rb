@@ -11,6 +11,8 @@ require 'redmine_prefabricated_responses/hooks'
 
 ActiveSupport::Reloader.to_prepare do
   ::Issue.prepend RedminePrefabricatedResponses::IssuePatch
+  ::User.prepend RedminePrefabricatedResponses::UserPatch
+  ::Group.prepend RedminePrefabricatedResponses::GroupPatch
 end
 
 Redmine::Plugin.register :redmine_prefabricated_responses do

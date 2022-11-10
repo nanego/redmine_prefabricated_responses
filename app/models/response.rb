@@ -7,7 +7,8 @@ class Response < ActiveRecord::Base
   serialize :organization_ids
 
   belongs_to :final_status, class_name: 'IssueStatus'
-  belongs_to :author, :class_name => 'User'
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
   belongs_to :project
   has_and_belongs_to_many :roles, :foreign_key => "response_id", :join_table => "responses_roles", :dependent => :delete_all
 
@@ -15,7 +16,7 @@ class Response < ActiveRecord::Base
                   "time_limit", "note",
                   "author_id", "project_ids",
                   "enabled", "organization_ids",
-                  "tracker_ids",
+                  "tracker_ids", "assigned_to_id",
                   "project_id", "visibility"
 
   validates_presence_of :name
