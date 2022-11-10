@@ -15,6 +15,8 @@ module RedminePrefabricatedResponses
       require_relative 'issue_status_patch'
       require_relative 'tracker_patch'
       require_relative 'project_patch'
+      require_relative 'user_patch'
+      require_relative 'group_patch'
     end
   end
 end
