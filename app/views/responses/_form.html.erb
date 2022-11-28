@@ -87,7 +87,7 @@
       <p>
         <% @users = @response.project.present? ? @response.project.assignable_users : User.active.sorted %>
         <%= f.select :assigned_to_id,
-                      principals_options_for_select(@users, @response.assigned_to), :include_blank => true %>
+                      principals_options_for_select_with_assigne_me_id_0(@users, @response.assigned_to), :include_blank => true %>
       </p>
       <p><%= f.select :tracker_ids,
                       options_for_select(Tracker.sorted.map { |s| [s.name, s.id] }, @response.tracker_ids),

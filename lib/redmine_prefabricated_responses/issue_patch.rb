@@ -4,6 +4,7 @@ module RedminePrefabricatedResponses
     def add_response(response, user = User.current)
       init_journal(user, response.note)
       self.status = response.final_status if response.final_status.present?
+      self.assigned_to = User.current if response.assigned_to_id.present? && response.assigned_to_id == 0
       self.assigned_to = response.assigned_to if response.assigned_to.present?
       save
     end

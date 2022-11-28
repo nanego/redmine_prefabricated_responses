@@ -71,6 +71,13 @@ RSpec.describe Issue, :type => :model do
       issue_7.add_response(response, User.find(1))
       expect(issue_7.assigned_to_id).to eq(2)
     end
+
+    it "can add a response with assigned to me" do
+      expect(issue_7.assigned_to_id).to be_nil
+      response.assigned_to_id =  0
+      issue_7.add_response(response)
+      expect(issue_7.assigned_to_id).to eq(User.current.id)
+    end
   end
 
   context "test permission for a public response of admin" do

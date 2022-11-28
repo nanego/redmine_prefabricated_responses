@@ -33,6 +33,9 @@
   <span class="label"><%= l(:field_final_status) %></span> :
   <span class="value"><%= @final_status %></span><br/>
 
+  <span class="label"><%= l(:field_assigned_to) %></span> :
+  <span class="value"><%=  @response.assigned_to_id == 0 ? l(:label_me): @response.assigned_to %></span><br/>
+
   <br>
 
   <% if @response.time_limit.present? %>

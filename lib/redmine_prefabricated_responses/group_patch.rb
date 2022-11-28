@@ -4,5 +4,5 @@ module RedminePrefabricatedResponses
       super
       Response.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
     end
-	end
+  end
 end
