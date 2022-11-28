@@ -11,3 +11,12 @@
 <div id="all_attributes">
   <%= render :partial => 'form' %>
 </div>
+
+<script>
+    $(function () {
+        let assigne_to_id = "<%= @response.assigned_to_id%>";
+        if (assigne_to_id == "0") {
+            $("select[name='response[assigned_to_id]'] option:eq(1)").attr('selected', 'selected');
+        }
+    });
+</script>
