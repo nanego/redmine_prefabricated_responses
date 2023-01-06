@@ -13,6 +13,8 @@ module RedminePrefabricatedResponses
     def after_plugins_loaded(_context = {})
       require_relative 'issue_patch'
       require_relative 'issue_status_patch'
+      require_relative 'tracker_patch'
+      require_relative 'project_patch'
     end
   end
 end
