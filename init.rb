@@ -12,6 +12,8 @@ require 'redmine_prefabricated_responses/hooks'
 ActiveSupport::Reloader.to_prepare do
   ::Issue.prepend RedminePrefabricatedResponses::IssuePatch
   require_dependency 'redmine_prefabricated_responses/issue_status_patch'
+  require_dependency 'redmine_prefabricated_responses/tracker_patch'
+  require_dependency 'redmine_prefabricated_responses/project_patch'
 end
 
 Redmine::Plugin.register :redmine_prefabricated_responses do
