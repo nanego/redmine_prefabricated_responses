@@ -16,7 +16,7 @@ describe ResponsesController, type: :controller do
     @request = ActionDispatch::TestRequest.create
     @response = ActionDispatch::TestResponse.new
     User.current = nil
-    @request.session[:user_id] = 1 #permissions admin
+    @request.session[:user_id] = 1 # permissions admin
     Project.find(1).enabled_module_names = ['issue_tracking', 'prefabricated_responses']
   end
 
@@ -170,7 +170,7 @@ describe ResponsesController, type: :controller do
       User.current = User.find(1)
     end
 
-    it "should show All statuses when all statuses are checked" do      
+    it "should show All statuses when all statuses are checked" do
       # Response.find(5).initial_status_ids: ['1', '2', '3', '4', '5'], add id 6 to select all statuses
       res_test = Response.find(5)
       res_test.initial_status_ids << "6"
@@ -179,7 +179,7 @@ describe ResponsesController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("All statues") 
+      expect(response.body).to include("All statues")
     end
   end
 end
