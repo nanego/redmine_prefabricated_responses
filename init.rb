@@ -1,17 +1,4 @@
-Redmine::Plugin.register :redmine_prefabricated_responses do
-  name
-  author 'Author name'
-  description 'This is a plugin for Redmine'
-  version '0.0.1'
-  url 'http://example.com/path/to/plugin'
-  author_url 'http://example.com/about'
-end
-
-require 'redmine_prefabricated_responses/hooks'
-
-ActiveSupport::Reloader.to_prepare do
-  ::Issue.prepend RedminePrefabricatedResponses::IssuePatch
-end
+require_relative 'lib/redmine_prefabricated_responses/hooks'
 
 Redmine::Plugin.register :redmine_prefabricated_responses do
   name 'Redmine Prefabricated Responses plugin'

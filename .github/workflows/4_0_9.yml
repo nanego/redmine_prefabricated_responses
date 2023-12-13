@@ -1,8 +1,8 @@
-name: Tests master
+name: Tests 4.0.9
 
 env:
   PLUGIN_NAME: redmine_prefabricated_responses
-  REDMINE_VERSION: master
+  REDMINE_VERSION: 4.0.9
   RAILS_ENV: test
 
 on:
@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ['3.2']
+        ruby: ['2.7']
         db: ['postgres']
       fail-fast: false
 

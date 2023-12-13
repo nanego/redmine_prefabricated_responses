@@ -8,4 +8,10 @@ module RedminePrefabricatedResponses
     # adds a link in the sidebar of the main issue page
     render_on :view_issues_sidebar_queries_bottom, :partial => 'hooks/view_sidebar_manage_responses'
   end
+
+  class ModelHook < Redmine::Hook::Listener
+    def after_plugins_loaded(_context = {})
+      require_relative 'issue_patch'
+    end
+  end
 end

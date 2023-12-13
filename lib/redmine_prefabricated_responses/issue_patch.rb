@@ -16,3 +16,5 @@ module RedminePrefabricatedResponses
 
   end
 end
+
+Issue.prepend RedminePrefabricatedResponses::IssuePatch
