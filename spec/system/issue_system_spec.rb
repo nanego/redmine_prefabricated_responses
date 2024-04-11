@@ -42,7 +42,8 @@ RSpec.describe "IssueController", type: :system do
       find("a#apply-response-submit").click
 
       expect(page.find('#issue_assigned_to_id').value).to eq('2')
-      find("#edit-submit").click
+
+      find("input[type='submit']").click
 
       issue = Issue.find(1)
       expect(issue.assigned_to_id).to eq(2)
@@ -60,7 +61,7 @@ RSpec.describe "IssueController", type: :system do
       find("a#apply-response-submit").click
 
       expect(page.find('#issue_status_id').value).to eq('3')
-      find("#edit-submit").click
+      find("input[type='submit']").click
 
       issue = Issue.find(1)
       expect(issue.status_id).to eq(3)
