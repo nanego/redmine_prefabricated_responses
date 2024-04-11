@@ -6,3 +6,5 @@ module RedminePrefabricatedResponses
     end
   end
 end
+
+Group.prepend RedminePrefabricatedResponses::GroupPatch
