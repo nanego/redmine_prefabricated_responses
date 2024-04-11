@@ -8,3 +8,5 @@ module RedminePrefabricatedResponses
     end
   end
 end
+
+User.prepend RedminePrefabricatedResponses::UserPatch
