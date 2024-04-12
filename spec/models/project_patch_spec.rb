@@ -7,7 +7,7 @@ describe "ProjectPatch/update reponse table" do
 
   it "Delete, a project should delete its responses" do
     project_test = Project.create!(:name => "test", :identifier => "test")
-    Response.find(5).update_all(project_id: project_test.id)
+    Response.find(5).update(project_id: project_test.id)
 
     expect do
       project_test.destroy
