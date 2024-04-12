@@ -6,7 +6,7 @@ describe "UserPatch/update reponse table" do
   fixtures :responses, :users
 
   before(:each) do
-    Response.find(2).update_attributes(assigned_to_id: 2)
+    Response.find(2).update_all(assigned_to_id: 2)
   end
 
   it "Set assigned_to_id to nil when deleting a user" do
