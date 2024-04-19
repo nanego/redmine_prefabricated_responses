@@ -32,7 +32,6 @@ RSpec.describe "IssueController", type: :system do
 
     it "Modifies assigned to when selecting a prefabricated response" do
       response = Response.find(2)
-      response.final_status_id = 3
       response.assigned_to_id = 2
       response.save
 
@@ -52,7 +51,6 @@ RSpec.describe "IssueController", type: :system do
     it "Modifies status to when selecting a prefabricated response" do
       response = Response.find(2)
       response.final_status_id = 3
-      response.assigned_to_id = 2
       response.save
 
       visit "/issues/1/edit"
