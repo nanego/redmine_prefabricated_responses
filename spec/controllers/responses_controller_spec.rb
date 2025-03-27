@@ -16,6 +16,7 @@ describe ResponsesController, type: :controller do
     @request = ActionDispatch::TestRequest.create
     @response = ActionDispatch::TestResponse.new
     User.current = nil
+    @request.session = ActionController::TestSession.new
     @request.session[:user_id] = 1 # permissions admin
     Project.find(1).enabled_module_names = ['issue_tracking', 'prefabricated_responses']
   end

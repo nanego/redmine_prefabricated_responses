@@ -1,4 +1,4 @@
-class Response < ActiveRecord::Base
+class Response < ApplicationRecord
 
   include Redmine::SafeAttributes
 

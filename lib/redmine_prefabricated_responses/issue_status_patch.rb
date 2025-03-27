@@ -13,7 +13,7 @@ module RedminePrefabricatedResponses
   end
 end
 
-class IssueStatus < ActiveRecord::Base
+class IssueStatus
 
   has_many :responses, :foreign_key => "final_status_id", dependent: :nullify
   before_destroy :remove_references_before_destroy

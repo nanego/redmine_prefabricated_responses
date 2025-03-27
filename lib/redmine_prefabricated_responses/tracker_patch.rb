@@ -13,7 +13,7 @@ module RedminePrefabricatedResponses
   end
 end
 
-class Tracker < ActiveRecord::Base
+class Tracker
 
   before_destroy :remove_references_before_destroy
   prepend RedminePrefabricatedResponses::TrackerPatch

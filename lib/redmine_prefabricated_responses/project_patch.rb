@@ -6,7 +6,7 @@ module RedminePrefabricatedResponses
   end
 end
 
-class Project < ActiveRecord::Base
+class Project
   has_many :responses, :dependent => :destroy
   prepend RedminePrefabricatedResponses::ProjectPatch
 end
