@@ -16,7 +16,7 @@ Please apply general instructions for plugins [here](http://www.redmine.org/wiki
 |---------------|-----------------|-------------------|
 | master        | 6.1.0           | [![6.1.0][1]][5]  |
 | master        | 6.0.7           | [![6.0.7][2]][5] |
-| master        | master          | [![master][4]][5] |
+| master        | master          | [![master][3]][5] |
 
 [1]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_1_0.yml/badge.svg
 [2]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_0_7.yml/badge.svg
