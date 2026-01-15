@@ -9,3 +9,10 @@ if (($('.wysiwyg-editor-tab').length)) {
 <% if @response.final_status_id.present? %>
 $('#issue_status_id').val(`<%= @response.final_status_id %>`)
 <% end %>
+<% if @response.assigned_to_id.present? %>
+  <% if @response.assigned_to_id == 0 %>
+$('#issue_assigned_to_id').val(`<%= User.current.id %>`)
+  <% else %>
+$('#issue_assigned_to_id').val(`<%= @response.assigned_to_id %>`)
+  <% end %>
+<% end %>
