@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require_dependency 'project'
 
 module RedminePrefabricatedResponses
   module ProjectPatch
-
   end
 end
 

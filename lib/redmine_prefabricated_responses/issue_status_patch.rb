@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency 'issue_status'
 
 module RedminePrefabricatedResponses
@@ -14,8 +16,7 @@ module RedminePrefabricatedResponses
 end
 
 class IssueStatus
-
-  has_many :responses, :foreign_key => "final_status_id", dependent: :nullify
+  has_many :responses, :foreign_key => "final_status_id", :dependent => :nullify
   before_destroy :remove_references_before_destroy
 
   prepend RedminePrefabricatedResponses::IssueStatusPatch

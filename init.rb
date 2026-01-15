@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'lib/redmine_prefabricated_responses/hooks'
 
 Redmine::Plugin.register :redmine_prefabricated_responses do

@@ -37,12 +37,25 @@ RSpec.describe Response, :type => :model do
 
   end
 
-  describe "scope public_for_user" do
-    it "shows all public responses with project_id when user is admin" do
-      expect(Response.public_for_user(User.find(1)).count).to eq(1)
+  describe "scope owned_without_project" do
+    it "shows all responses owned by user without project" do
+      # User 1 (admin) owns responses 4 (public) and 5 (private) without project
+      expect(Response.owned_without_project(User.find(1)).count).to eq(2)
     end
-    it "shows all public responses with project_id when user is not admin" do
-      expect(Response.public_for_user(User.find(2)).count).to eq(1)
+    it "shows all responses owned by non-admin user without project" do
+      # User 2 owns responses 1 (private) and 8 (public) without project
+      expect(Response.owned_without_project(User.find(2)).count).to eq(2)
+    end
+  end
+
+  describe "scope public_from_others_without_project" do
+    it "shows public responses from others for admin" do
+      # Response 8 is public from user 2
+      expect(Response.public_from_others_without_project(User.find(1)).count).to eq(1)
+    end
+    it "shows public responses from others for non-admin" do
+      # Response 4 is public from user 1
+      expect(Response.public_from_others_without_project(User.find(2)).count).to eq(1)
     end
   end
 

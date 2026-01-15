@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_dependency 'tracker'
 
 module RedminePrefabricatedResponses
@@ -14,8 +16,6 @@ module RedminePrefabricatedResponses
 end
 
 class Tracker
-
   before_destroy :remove_references_before_destroy
   prepend RedminePrefabricatedResponses::TrackerPatch
-
 end

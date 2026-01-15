@@ -1,5 +1,6 @@
-class Response < ApplicationRecord
+# frozen_string_literal: true
 
+class Response < ApplicationRecord
   include Redmine::SafeAttributes
 
   serialize :initial_status_ids
@@ -7,10 +8,12 @@ class Response < ApplicationRecord
   serialize :organization_ids
 
   belongs_to :final_status, class_name: 'IssueStatus'
-  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  belongs_to :assigned_to, :class_name => 'Principal', :foreign_key => 'assigned_to_id'
+  belongs_to :author, :class_name => 'User'
+  belongs_to :assigned_to, :class_name => 'Principal'
   belongs_to :project
-  has_and_belongs_to_many :roles, :foreign_key => "response_id", :join_table => "responses_roles", :dependent => :delete_all
+  # rubocop:disable Rails/HasAndBelongsToMany
+  has_and_belongs_to_many :roles, :join_table => "responses_roles", :dependent => :delete_all
+  # rubocop:enable Rails/HasAndBelongsToMany
 
   safe_attributes "name", "initial_status_ids", "final_status_id",
                   "time_limit", "note",
@@ -20,7 +23,7 @@ class Response < ApplicationRecord
                   "project_id", "visibility"
 
   validates_presence_of :name
-  validates_presence_of :author, :if => Proc.new { |response| response.new_record? || response.author_id_changed? }
+  validates_presence_of :author, :if => proc { |response| response.new_record? || response.author_id_changed? }
 
   scope :active, -> { where(enabled: true) }
   # scope :not_private, -> { where(is_private: false) }
@@ -33,17 +36,15 @@ class Response < ApplicationRecord
   VISIBILITY_PUBLIC = 2
 
   validates :visibility, :inclusion => { :in => [VISIBILITY_PUBLIC, VISIBILITY_ROLES, VISIBILITY_PRIVATE] }
-  scope :private_for_user, ->(user) do
-    if user.admin?
-      where("visibility <> ? And author_id = ? AND project_id IS NULL", VISIBILITY_ROLES, user.id)
-    else
-      where("visibility = ? And author_id = ? AND project_id IS NULL", VISIBILITY_PRIVATE, user.id)
-    end
+
+  # User's own responses without project (private or public)
+  scope :owned_without_project, ->(user) do
+    where(author_id: user.id, project_id: nil)
   end
 
-  # Get public responses with project_id nil
-  scope :public_for_user, ->(user) do
-    where("visibility = ? And author_id <> ? AND project_id IS NULL", VISIBILITY_PUBLIC, user.id)
+  # Public responses from other users without project
+  scope :public_from_others_without_project, ->(user) do
+    where(visibility: VISIBILITY_PUBLIC, project_id: nil).where.not(author_id: user.id)
   end
 
   def self.global_for_project(user = User.current, project_id)
@@ -62,6 +63,8 @@ class Response < ApplicationRecord
           " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
           " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND m.project_id = ?))",
         user.id, VISIBILITY_PRIVATE, VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, project_id)
+    else
+      none
     end
   end
 
@@ -70,20 +73,22 @@ class Response < ApplicationRecord
   end
 
   def self.available_for(user: User.current, status: nil, tracker: nil, project_id: nil)
-    private_responses = Response.active.private_for_user(user)
-    global_responses = Response.active.global_for_project(user, project_id)
-    public_responses = Response.active.public_for_user(user) if user.allowed_to?(:use_public_responses, Project.find(project_id))
-    responses = private_responses.to_a + global_responses.to_a + public_responses.to_a
+    # User's own responses without project (always visible to the user)
+    own_responses = Response.active.owned_without_project(user)
+
+    # Responses linked to the project (visibility rules apply)
+    project_responses = Response.active.global_for_project(user, project_id)
+
+    # Public responses from others without project (only if user has permission)
+    public_responses_from_others = []
+    if user.allowed_to?(:use_public_responses, Project.find(project_id))
+      public_responses_from_others = Response.active.public_from_others_without_project(user)
+    end
+
+    responses = own_responses.to_a + project_responses.to_a + public_responses_from_others.to_a
     responses = responses.select { |r| r.initial_status_ids.empty? || r.initial_status_ids.include?(status.id.to_s) } if status.present?
     responses = responses.select { |r| r.tracker_ids.empty? || r.tracker_ids.include?(tracker.id.to_s) } if tracker.present?
     responses.uniq
-  end
-
-  # Returns true if usr or current user is allowed to view the response
-  def visible?(usr = nil)
-    (usr || User.current).allowed_to?(:view_prefabricated_responses, self.project) do |role, user|
-      user.admin? || self.author == user
-    end
   end
 
   def remove_empty_value_from_serialized_field

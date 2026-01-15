@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RedminePrefabricatedResponses
   class Hooks < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
