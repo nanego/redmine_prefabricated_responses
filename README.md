@@ -50,15 +50,15 @@ For more details, see the [official Redmine plugin installation guide](http://ww
 
 ### Permissions
 
-The plugin adds several permissions that can be configured per role in **Administration > Roles and permissions**:
+The plugin adds three permissions that can be configured per role in **Administration > Roles and permissions**:
 
 | Permission | Description |
 |------------|-------------|
-| `manage_public_responses` | Full management of public responses (create, edit, delete) |
-| `use_public_responses` | Use public responses on issues |
-| `create_prefabricated_responses` | Create new prefabricated responses |
-| `edit_public_responses` | Edit existing public responses |
-| `delete_public_responses` | Delete public responses |
+| `manage_own_responses` | Create, edit, and delete own private responses |
+| `manage_public_responses` | Create, edit, and delete public responses (own and from others) + set visibility options |
+| `use_public_responses` | Use public responses created by other users |
+
+**Note**: Users can always edit and delete their own responses regardless of permissions. Admins have full access to all responses.
 
 ### Enabling the Module
 
@@ -76,7 +76,7 @@ Enable the "Prefabricated responses" module on your projects:
 1. Go to `/responses/new` directly
 2. Or for admins: **Administration > Prefabricated responses** then click "Add a prefabricated response"
 
-**Project-level responses** (requires `create_prefabricated_responses` permission):
+**Project-level responses** (requires `manage_own_responses` or `manage_public_responses` permission):
 1. Go to a project's issues list
 2. In the sidebar, click "Add a response on this project"
 
@@ -103,12 +103,12 @@ Enable the "Prefabricated responses" module on your projects:
 
 | Plugin branch | Redmine Version | Test Status       |
 |---------------|-----------------|-------------------|
-| master        | 6.1.1           | [![6.1.1][1]][5]  |
-| master        | 6.0.8           | [![6.0.8][2]][5]  |
+| master        | 6.1.2           | [![6.1.2][1]][5]  |
+| master        | 6.0.9           | [![6.0.9][2]][5]  |
 | master        | master          | [![master][3]][5] |
 
-[1]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_1_1.yml/badge.svg
-[2]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_0_8.yml/badge.svg
+[1]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_1_2.yml/badge.svg
+[2]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/6_0_9.yml/badge.svg
 [3]: https://github.com/nanego/redmine_prefabricated_responses/actions/workflows/master.yml/badge.svg
 [5]: https://github.com/nanego/redmine_prefabricated_responses/actions
 
