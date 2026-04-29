@@ -5,13 +5,15 @@
   <div class="box tabular">
     <div id="response_attributes">
 
-      <p><%= f.text_field :name, { label: l(:field_name), required: false, size: 80 } %></p>
+      <p>
+        <%= f.text_field :name, { label: l(:field_name), required: false, size: 80 } %>
+      </p>
       <p>
         <%= f.check_box :enabled, { label: l(:label_enabled) } %>
       </p>
       <%= hidden_field_tag 'response[project_id]', @response.project.present? ? @response.project.id : '' %>
       <% if User.current.admin? ||
-        User.current.allowed_to?(:manage_public_responses, @response.project) %>
+            User.current.allowed_to?(:manage_public_responses, @response.project) %>
         <p>
           <label><%= l(:field_visible) %></label>
           <label class="block"><%= f.radio_button :visibility, Response::VISIBILITY_PRIVATE %>
@@ -42,10 +44,9 @@
         <%= f.select :initial_status_ids,
                      options_for_select(IssueStatus.sorted.map { |s| [s.name, s.id] }, @response.initial_status_ids),
                      { label: l(:field_initial_status_plural) },
-                     { class: "orga-select2", multiple: true, :onchange => "update_checkbox(this, 'select_all_status', #{IssueStatus.count})" } %>
+                     { class: "orga-select2", multiple: true } %>
         <span>
-          <%= check_box_tag :select_all_status, :select_all_status, (@response.initial_status_ids.present? && @response.initial_status_ids.count == IssueStatus.count), :onclick => "selectAll(this, 'response_initial_status_ids')" %>
-          <%= label_tag :select_all_status, l(:label_select_all), { class: "checkbox inline" } %>
+          <%= link_to l(:label_select_all), '#', onclick: "selectAllOptions('response_initial_status_ids'); return false;" %>
         </span>
       </p>
 
@@ -55,10 +56,6 @@
                      { label: l(:field_final_status), required: false, include_blank: true },
                      { class: "orga-select2", multiple: false } %>
         <span><i><%= l('hint_no_final_status') %></i></span>
-      </p>
-
-      <p>
-        <%= f.text_field :author, disabled: true %>
       </p>
 
       <!--
@@ -85,17 +82,25 @@
       </p>
       -->
       <p>
-        <% @users = @response.project.present? ? @response.project.assignable_users : User.active.sorted %>
+        <% selected_user = @response.assigned_to %>
+        <% selected_options = if selected_user.present?
+                                [[selected_user.name, selected_user.id]]
+                              elsif @response.assigned_to_id == 0
+                                [["<< #{l(:label_me)} >>", 0]]
+                              else
+                                []
+                              end %>
         <%= f.select :assigned_to_id,
-                     principals_options_for_select_with_assigne_me_id_0(@users, @response.assigned_to), :include_blank => true %>
+                     options_for_select(selected_options, @response.assigned_to_id),
+                     { include_blank: true },
+                     { id: 'response_assigned_to_id', class: 'response-assignee-select2' } %>
       </p>
       <p><%= f.select :tracker_ids,
                       options_for_select(Tracker.sorted.map { |s| [s.name, s.id] }, @response.tracker_ids),
                       { label: l(:label_tracker_plural) },
-                      { class: "orga-select2", multiple: true, :onchange => "update_checkbox(this, 'select_all_tracker', #{Tracker.count})" } %>
+                      { class: "orga-select2", multiple: true } %>
         <span>
-          <%= check_box_tag :select_all_tracker, :select_all_tracker, (@response.tracker_ids.present? && @response.tracker_ids.count == Tracker.count), :onclick => "selectAll(this, 'response_tracker_ids')" %>
-          <%= label_tag :select_all_tracker, l(:label_select_all), { class: "checkbox inline" } %>
+          <%= link_to l(:label_select_all), '#', onclick: "selectAllOptions('response_tracker_ids'); return false;" %>
         </span>
       </p>
 
@@ -104,6 +109,11 @@
         <%= wikitoolbar_for 'response_note' %>
       </p>
 
+      <% if @response.author.present? %>
+        <p>
+          <%= f.text_field :author, disabled: true %>
+        </p>
+      <% end %>
 
       <% if false
            #Redmine::Plugin.installed?(:redmine_organizations) %>
@@ -135,5 +145,54 @@
             var private_checked = $('#response_visibility_0').is(':checked');
             $("input[name='response[role_ids][]'][type=checkbox]").attr('disabled', !roles_checked);
         }).trigger('change');
+
+        // Initialize Select2 with AJAX for assignee field
+        var $assigneeSelect = $('.response-assignee-select2');
+        if ($assigneeSelect.length && typeof $assigneeSelect.select2 === 'function') {
+            var projectId = $('input[name="response[project_id]"]').val();
+            $assigneeSelect.select2({
+                allowClear: true,
+                placeholder: '',
+                width: '350px',
+                language: {
+                    noResults: function () {
+                        return '<%= j l(:label_no_data) %>';
+                    },
+                    searching: function () {
+                        return '<%= j l(:label_loading) %>';
+                    },
+                    loadingMore: function () {
+                        return '<%= j l(:label_loading) %>';
+                    },
+                    inputTooShort: function () {
+                        return '<%= j l(:label_search) %>...';
+                    }
+                },
+                ajax: {
+                    url: '<%= autocomplete_assignees_responses_path %>',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term || '',
+                            project_id: projectId,
+                            page: params.page || 0,
+                            page_limit: 20
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 0;
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: (params.page + 1) * 20 < data.total
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                minimumInputLength: 0
+            });
+        }
     });
 </script>

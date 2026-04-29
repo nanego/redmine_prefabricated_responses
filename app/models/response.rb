@@ -3,6 +3,8 @@
 class Response < ApplicationRecord
   include Redmine::SafeAttributes
 
+  attribute :enabled, default: true
+
   serialize :initial_status_ids
   serialize :tracker_ids
   serialize :organization_ids
@@ -55,13 +57,13 @@ class Response < ApplicationRecord
     elsif user.memberships.any?
       scope.where(
         "author_id = ? AND #{table_name}.visibility = ?" +
-          " OR #{table_name}.visibility = ?" +
-          " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
-          "SELECT DISTINCT res.id FROM #{table_name} res" +
-          " INNER JOIN responses_roles res_ro on res_ro.response_id = res.id" +
-          " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = res_ro.role_id" +
-          " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
-          " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND m.project_id = ?))",
+        " OR #{table_name}.visibility = ?" +
+        " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
+        "SELECT DISTINCT res.id FROM #{table_name} res" +
+        " INNER JOIN responses_roles res_ro on res_ro.response_id = res.id" +
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = res_ro.role_id" +
+        " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
+        " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND m.project_id = ?))",
         user.id, VISIBILITY_PRIVATE, VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, project_id)
     else
       none

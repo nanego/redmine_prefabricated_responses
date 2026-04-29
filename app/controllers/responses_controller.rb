@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class ResponsesController < ApplicationController
-  before_action :find_optional_project, :only => [:index, :new, :create]
+  before_action :find_optional_project_for_index, :only => [:index]
+  before_action :find_optional_project, :only => [:new, :create]
   before_action :find_response, :only => [:show, :edit, :update, :destroy]
   before_action :require_admin_or_author, :only => [:edit, :update]
   before_action :require_delete_permission, :only => [:destroy]
@@ -27,6 +28,11 @@ class ResponsesController < ApplicationController
   def new
     @response = Response.new
     @response.project = params[:project_id] ? Project.find(params[:project_id]) : nil
+    unless User.current.admin? || User.current.allowed_to?(:manage_own_responses, @response.project,
+global: true) || User.current.allowed_to?(:manage_public_responses, @response.project, global: true)
+      render_403
+      return false
+    end
   end
 
   def create
@@ -35,6 +41,21 @@ class ResponsesController < ApplicationController
     @response.project = params[:response][:project_id].present? ? Project.find(params[:response][:project_id]) : nil
     @response.safe_attributes = params[:response]
     complete_response_attributes
+
+    # Check permission based on response visibility
+    unless User.current.admin?
+      if @response.visibility == Response::VISIBILITY_PRIVATE
+        unless User.current.allowed_to?(:manage_own_responses, @response.project, global: true)
+          render_403
+          return false
+        end
+      else
+        unless User.current.allowed_to?(:manage_public_responses, @response.project, global: true)
+          render_403
+          return false
+        end
+      end
+    end
 
     if @response.save
       respond_to do |format|
@@ -106,6 +127,37 @@ class ResponsesController < ApplicationController
     return render_403 unless @issue.available_responses(User.current).include?(@response)
   end
 
+  def autocomplete_assignees
+    project = params[:project_id].present? ? Project.find_by(id: params[:project_id]) : nil
+    term = params[:term].to_s.strip
+    page = params[:page].to_i
+    page_limit = (params[:page_limit] || 20).to_i
+
+    users = if project.present?
+              project.assignable_users
+            else
+              User.active.sorted
+            end
+
+    # Filter by search term using Principal.like scope for cross-database compatibility
+    users = users.like(term) if term.present?
+
+    total = users.count
+    users = users.offset(page * page_limit).limit(page_limit)
+
+    results = users.map { |u| { id: u.id, text: u.name } }
+
+    # Add "me" option at the beginning of first page
+    if page == 0 && User.current.logged?
+      me_label = "<< #{l(:label_me)} >>"
+      if term.blank? || me_label.downcase.include?(term.downcase) || l(:label_me).downcase.include?(term.downcase)
+        results.unshift({ id: 0, text: me_label })
+      end
+    end
+
+    render json: { results: results, total: total }
+  end
+
   def update_note
     @issue = Issue.find(params[:issue_id])
     @response = Response.find(params[:response_id])
@@ -128,19 +180,40 @@ class ResponsesController < ApplicationController
   end
 
   def require_admin_or_author
-    unless User.current.admin? || @response.author == User.current || User.current.allowed_to?(:edit_public_responses, @response.project)
-      render_403
-      return false
+    return true if User.current.admin? || @response.author == User.current
+
+    # For public responses, check manage_public_responses permission
+    if @response.visibility != Response::VISIBILITY_PRIVATE
+      return true if User.current.allowed_to?(:manage_public_responses, @response.project)
     end
-    true
+
+    render_403
+    false
   end
 
   def require_delete_permission
-    unless User.current.admin? || @response.author == User.current || User.current.allowed_to?(:delete_public_responses, @response.project)
-      render_403
-      return false
+    return true if User.current.admin? || @response.author == User.current
+
+    # For public responses, check manage_public_responses permission
+    if @response.visibility != Response::VISIBILITY_PRIVATE
+      return true if User.current.allowed_to?(:manage_public_responses, @response.project)
     end
-    true
+
+    render_403
+    false
+  end
+
+  def find_optional_project_for_index
+    return unless require_login
+
+    if params[:project_id].present?
+      @project = Project.find(params[:project_id])
+      authorize_global
+    end
+    # Without project context, users see only their own responses (filtered in index action)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+    false
   end
 
   def find_response

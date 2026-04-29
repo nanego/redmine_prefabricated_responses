@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ResponsesController, type: :controller do
@@ -95,32 +97,32 @@ describe ResponsesController, type: :controller do
       @request.session[:user_id] = 2
     end
 
-    it "is not available when the user does not have the permission(create_prefabricated_responses)" do
+    it "is not available when the user does not have the permission(manage_own_responses or manage_public_responses)" do
       get :new, params: { project_id: project_1.id }
       expect(response).to have_http_status(:forbidden)
     end
 
-    it "is available only when user has the permission(create_prefabricated_responses)" do
+    it "is available only when user has the permission(manage_own_responses)" do
       role = user_2.roles_for_project(project_1).first
-      role.add_permission! :create_prefabricated_responses
+      role.add_permission! :manage_own_responses
       get :new, params: { project_id: project_1.id }
       expect(response).to have_http_status(:success)
     end
 
-    it "is not available when the user does not have the permission(edit_public_responses)" do
+    it "is not available when the user does not have the permission(manage_public_responses)" do
       get :edit, params: { id: '7' }
       expect(response).to have_http_status(:forbidden)
     end
 
-    it "is available only when user has the permission(edit_public_responses)" do
+    it "is available only when user has the permission(manage_public_responses)" do
       @request.session[:user_id] = 1
       get :edit, params: { id: '7' }
       expect(response).to have_http_status(:success)
     end
 
-    it "does not show delete link when the user does not have the permission(delete_public_responses)" do
+    it "does not show delete link when the user does not have the permission(manage_public_responses)" do
       role = Role.find(2)
-      role.add_permission! :create_prefabricated_responses
+      role.add_permission! :manage_own_responses
       member = MemberRole.new(:member_id => 1, :role_id => 2)
       member.save
       get :index, params: { project_id: project_1.id }
@@ -130,10 +132,10 @@ describe ResponsesController, type: :controller do
       assert_select "a[href='/responses/7'][data-method='delete']", 0
     end
 
-    it "shows delete link when the user has the permission(delete_public_responses)" do
+    it "shows delete link when the user has the permission(manage_public_responses)" do
       role = Role.find(2)
-      role.add_permission! :create_prefabricated_responses
-      role.add_permission! :delete_public_responses
+      role.add_permission! :manage_own_responses
+      role.add_permission! :manage_public_responses
       member = MemberRole.new(:member_id => 1, :role_id => 2)
       member.save
       get :index, params: { project_id: project_1.id }
@@ -145,16 +147,16 @@ describe ResponsesController, type: :controller do
 
     it "does not show response visibility options when the user does not have the permission(manage_public_responses)" do
       role = user_2.roles_for_project(project_1).first
-      role.add_permission! :create_prefabricated_responses
+      role.add_permission! :manage_own_responses
       get :new, params: { project_id: project_1.id }
 
       expect(response).to have_http_status(:success)
-      expect(response.body).not_to include('class=\"block role-visibility\"')
+      expect(response.body).not_to include('class=\\"block role-visibility\\"')
     end
 
     it "shows response visibility options only when user has the permission(manage_public_responses)" do
       role = user_2.roles_for_project(project_1).first
-      role.add_permission! :create_prefabricated_responses
+      role.add_permission! :manage_own_responses
       role.add_permission! :manage_public_responses
       get :new, params: { project_id: project_1.id }
 

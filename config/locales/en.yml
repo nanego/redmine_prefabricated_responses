@@ -20,3 +20,6 @@ en:
   notice_response_not_added: The response has not been added.
   label_all_status: All statues
   project_module_prefabricated_responses: Prefabricated responses
+  permission_manage_own_responses: Manage own responses
+  permission_manage_public_responses: Manage public responses
+  permission_use_public_responses: Use public responses

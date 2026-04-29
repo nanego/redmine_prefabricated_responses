@@ -7,8 +7,7 @@
   <%= hidden_field_tag "issue_id", @issue.id %>
   <%= hidden_field_tag "response_id", @response.id %>
 </div>
-<p class="buttons">
-  <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+<p class="buttons send-response">
   <%= submit_tag l(:button_send), :name => nil, onclick: "update_note();" %>
 </p>
 

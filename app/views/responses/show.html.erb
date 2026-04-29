@@ -1,8 +1,8 @@
-<div class=contextual>
+<div class="contextual">
   <% if @response.project.present? %>
-    <%= link_to l(:label_all_responses_for_project), project_responses_path(@response.project.id), class: "icon-prefabricated-responses" %>
+    <%= link_to sprite_icon('comments', l(:label_all_responses_for_project)), project_responses_path(@response.project.id), class: "icon" %>
   <% else %>
-    <%= link_to l(:label_all_responses), responses_path, class: "icon-prefabricated-responses" %>
+    <%= link_to sprite_icon('comments', l(:label_all_responses)), responses_path, class: "icon" %>
   <% end %>
 </div>
 
@@ -20,7 +20,7 @@
     <br>
   <% end %>
   <span class="label"><%= l(:label_enabled) %></span> :
-  <span class="value <%= @response.enabled ? 'icon icon-ok' : 'icon icon-not-ok' %>" style="margin-left: 10px;"></span><br/>
+  <span class="value icon-only <%= @response.enabled ? 'icon-ok' : 'icon-not-ok' %>" style="margin-left: 10px;"><%= @response.enabled ? sprite_icon('checked') : sprite_icon('close') %></span><br/>
 
   <span class="label"><%= l(:label_auto_update_note) %></span> :
   <span class="value"><%= @response.note.truncate(400) %></span><br/>

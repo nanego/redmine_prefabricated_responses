@@ -1,13 +1,15 @@
-#admin-menu a.prefabricated-responses {
-    background-image: url(../images/streamline-icon-messages-bubble-text-1@48x48.png);
-    background-size: 16px;
+/* Status icons for responses */
+.icon-ok svg.icon-svg {
+    stroke: #5db651;
 }
 
-.icon-prefabricated-responses {
-    background-image: url(../images/streamline-icon-messages-bubble-text-1@48x48.png);
-    background-size: 16px;
-    padding-left: 25px;
-    background-repeat: no-repeat;
+.icon-not-ok svg.icon-svg {
+    stroke: #c61a1a;
+}
+
+/* Override Redmine core bug: .icon-not-ok:not(svg) should be .icon-not-ok:not(:has(svg)) */
+.icon-not-ok:has(svg) {
+    background-image: none;
 }
 
 #prefabricated-responses .value {
@@ -40,6 +42,7 @@
 #add_response_form #add-response-submit:hover, #add_response_form #add-response-submit:focus {
     background-color: #CCCCCC;
 }
+
 .link-disable {
     color: #696969
 }
@@ -47,4 +50,9 @@
 #apply-response-submit {
     vertical-align: middle;
     margin-left: 4px;
+}
+
+.send-response input[type="submit"] {
+    background-color: #229e43;
+    color: #f9ffef;
 }

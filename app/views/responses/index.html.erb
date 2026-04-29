@@ -2,13 +2,13 @@
 
 <div class="contextual">
   <% if @project %>
-    <%= link_to l(:label_new_response_for_project), new_project_response_path(@project), :class => 'icon icon-add' %>
+    <%= link_to sprite_icon('add', l(:label_new_response_for_project)), new_project_response_path(@project), :class => 'icon icon-add' %>
   <% else %>
-    <%= link_to l(:label_new_response), new_response_path, :class => 'icon icon-add' %>
+    <%= link_to sprite_icon('add', l(:label_new_response)), new_response_path, :class => 'icon icon-add' %>
   <% end %>
 </div>
 
-<h2><span class="icon icon-prefabricated-responses"><%= h "#{l(:label_responses)}" %></span></h2>
+<h2 class="icon"><%= sprite_icon('comments', l(:label_responses)) %></h2>
 
 <% if @notice %>
   <div class="flash notice"><%= @notice %></div>
@@ -42,7 +42,7 @@
         <% final_status = IssueStatus.where(id: response.final_status_id).join(', ') %>
         <% trackers = Tracker.where(id: response.tracker_ids).join(', ') %>
         <tr class="response">
-          <td><span class="<%= response.enabled ? 'icon icon-ok' : 'icon icon-not-ok' %>"></span></td>
+          <td><span class="icon-only <%= response.enabled ? 'icon-ok' : 'icon-not-ok' %>"><%= response.enabled ? sprite_icon('checked') : sprite_icon('close') %></span></td>
           <td><%= link_to response.name, response_path(response) %></td>
           <td><%= h(initial_statuses) %></td>
           <td><%= h(final_status) %></td>
@@ -52,11 +52,11 @@
           <!-- <td><%= l 'time_in_days', days: response.time_limit %></td> -->
 
           <td class="buttons">
-            <%= link_to l(:button_show), response_path(response), :class => 'icon icon-list' %>
-            <% if User.current.admin? || response.author == User.current || User.current.allowed_to?(:edit_public_responses, response.project) %>
-              <%= link_to l(:button_edit), edit_response_path(response), :class => 'icon icon-edit' %>
+            <%= link_to sprite_icon('list', l(:button_show)), response_path(response), :class => 'icon icon-list' %>
+            <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>
+              <%= link_to sprite_icon('edit', l(:button_edit)), edit_response_path(response), :class => 'icon icon-edit' %>
             <% end %>
-            <% if User.current.admin? || response.author == User.current || User.current.allowed_to?(:delete_public_responses, response.project) %>  
+            <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>  
               <%= delete_link response_path(response) %>
             <% end %>
           </td>
