@@ -2,9 +2,9 @@
 
 <div class="contextual">
   <% if @project %>
-    <%= link_to sprite_icon('add', l(:label_new_response_for_project)), new_project_response_path(@project), :class => 'icon icon-add' %>
+    <%= link_to sprite_icon('add', l(:label_new_response_for_project)), new_project_response_path(@project) %>
   <% else %>
-    <%= link_to sprite_icon('add', l(:label_new_response)), new_response_path, :class => 'icon icon-add' %>
+    <%= link_to sprite_icon('add', l(:label_new_response)), new_response_path %>
   <% end %>
 </div>
 
@@ -52,9 +52,9 @@
           <!-- <td><%= l 'time_in_days', days: response.time_limit %></td> -->
 
           <td class="buttons">
-            <%= link_to sprite_icon('list', l(:button_show)), response_path(response), :class => 'icon icon-list' %>
+            <%= link_to sprite_icon('list', l(:button_show)), response_path(response) %>
             <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>
-              <%= link_to sprite_icon('edit', l(:button_edit)), edit_response_path(response), :class => 'icon icon-edit' %>
+              <%= link_to sprite_icon('edit', l(:button_edit)), edit_response_path(response) %>
             <% end %>
             <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>  
               <%= delete_link response_path(response) %>
