@@ -42,7 +42,7 @@
         <% final_status = IssueStatus.where(id: response.final_status_id).join(', ') %>
         <% trackers = Tracker.where(id: response.tracker_ids).join(', ') %>
         <tr class="response">
-          <td><span class="icon-only <%= response.enabled ? 'icon-ok' : 'icon-not-ok' %>"><%= response.enabled ? sprite_icon('checked') : sprite_icon('close') %></span></td>
+          <td><span class="icon-only <%= response.enabled ? 'icon-ok' : 'icon-error' %>"><%= response.enabled ? sprite_icon('checked', css_class: 'icon-ok') : sprite_icon('close') %></span></td>
           <td><%= link_to response.name, response_path(response) %></td>
           <td><%= h(initial_statuses) %></td>
           <td><%= h(final_status) %></td>

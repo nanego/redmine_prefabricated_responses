@@ -20,7 +20,7 @@
     <br>
   <% end %>
   <span class="label"><%= l(:label_enabled) %></span> :
-  <span class="value icon-only <%= @response.enabled ? 'icon-ok' : 'icon-not-ok' %>" style="margin-left: 10px;"><%= @response.enabled ? sprite_icon('checked') : sprite_icon('close') %></span><br/>
+  <span class="value icon-only <%= @response.enabled ? 'icon-ok' : 'icon-error' %>" style="margin-left: 10px;"><%= @response.enabled ? sprite_icon('checked', css_class: 'icon-ok') : sprite_icon('close') %></span><br/>
 
   <span class="label"><%= l(:label_auto_update_note) %></span> :
   <span class="value"><%= @response.note.truncate(400) %></span><br/>

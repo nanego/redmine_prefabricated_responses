@@ -1,17 +1,3 @@
-/* Status icons for responses */
-.icon-ok svg.icon-svg {
-    stroke: #5db651;
-}
-
-.icon-not-ok svg.icon-svg {
-    stroke: #c61a1a;
-}
-
-/* Override Redmine core bug: .icon-not-ok:not(svg) should be .icon-not-ok:not(:has(svg)) */
-.icon-not-ok:has(svg) {
-    background-image: none;
-}
-
 #prefabricated-responses .value {
     font-weight: bold;
 }
