@@ -182,7 +182,7 @@ describe ResponsesController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:success)
-      expect(response.body).to include("All statues")
+      expect(response.body).to include("All statuses")
     end
   end
 end
