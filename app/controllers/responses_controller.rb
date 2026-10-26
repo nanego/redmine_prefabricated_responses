@@ -4,8 +4,7 @@ class ResponsesController < ApplicationController
   before_action :find_optional_project_for_index, :only => [:index]
   before_action :find_optional_project, :only => [:new, :create]
   before_action :find_response, :only => [:show, :edit, :update, :destroy]
-  before_action :require_admin_or_author, :only => [:edit, :update]
-  before_action :require_delete_permission, :only => [:destroy]
+  before_action :require_edit_permission, :only => [:edit, :update, :destroy]
   before_action :require_global, :only => [:show]
 
   def index
@@ -13,7 +12,7 @@ class ResponsesController < ApplicationController
     if @project
       @responses = @responses.global_for_project(User.current, @project.id)
     else
-      @responses = @responses.owned_without_project(User.current)
+      @responses = @responses.without_project_for(User.current)
     end
     respond_to do |format|
       format.html { render :layout => User.current.admin? ? 'admin' : 'base' }
@@ -171,7 +170,7 @@ global: true) || User.current.allowed_to?(:manage_public_responses, @response.pr
   private
 
   def complete_response_attributes
-    if User.current.allowed_to?(:manage_public_responses, @response.project) || User.current.admin?
+    if Response.manage_public_allowed?(User.current, @response.project)
       @response.visibility = (params[:response] && params[:response][:visibility]) || Response::VISIBILITY_PRIVATE
       @response.role_ids = params[:response] && params[:response][:role_ids]
     else
@@ -179,25 +178,8 @@ global: true) || User.current.allowed_to?(:manage_public_responses, @response.pr
     end
   end
 
-  def require_admin_or_author
-    return true if User.current.admin? || @response.author == User.current
-
-    # For public responses, check manage_public_responses permission
-    if @response.visibility != Response::VISIBILITY_PRIVATE
-      return true if User.current.allowed_to?(:manage_public_responses, @response.project)
-    end
-
-    render_403
-    false
-  end
-
-  def require_delete_permission
-    return true if User.current.admin? || @response.author == User.current
-
-    # For public responses, check manage_public_responses permission
-    if @response.visibility != Response::VISIBILITY_PRIVATE
-      return true if User.current.allowed_to?(:manage_public_responses, @response.project)
-    end
+  def require_edit_permission
+    return true if @response.editable_by?(User.current)
 
     render_403
     false
@@ -228,7 +210,7 @@ global: true) || User.current.allowed_to?(:manage_public_responses, @response.pr
     if @response.project.present?
       global = Response.global_for_project(User.current, @response.project.id).include?(@response)
     else
-      global = Response.owned_without_project(User.current).include?(@response)
+      global = Response.without_project_for(User.current).include?(@response)
     end
 
     render_403 unless global

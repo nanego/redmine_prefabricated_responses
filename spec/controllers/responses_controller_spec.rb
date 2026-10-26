@@ -165,6 +165,72 @@ describe ResponsesController, type: :controller do
       assert_select "label[class='block role-visibility']"
       expect(response.body).to include('class="block role-visibility"')
     end
+
+    describe "public responses without project" do
+      it "lists public responses of other users when the user has the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        get :index
+
+        expect(response).to have_http_status(:success)
+        expect(assigns(:responses)).to include(Response.find(4))
+        expect(assigns(:responses)).not_to include(Response.find(5))
+        assert_select "a[href='/responses/4/edit']", 1
+        assert_select "a[href='/responses/4'][data-method='delete']", 1
+      end
+
+      it "does not list public responses of other users without the permission(manage_public_responses)" do
+        get :index
+
+        expect(response).to have_http_status(:success)
+        expect(assigns(:responses)).not_to include(Response.find(4))
+      end
+
+      it "updates a public response of another user when the user has the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        patch :update, params: { id: 4, response: { name: 'Renamed', visibility: Response::VISIBILITY_PUBLIC } }
+
+        expect(response).to redirect_to(responses_path)
+        expect(Response.find(4).name).to eq('Renamed')
+        expect(Response.find(4).visibility).to eq(Response::VISIBILITY_PUBLIC)
+      end
+
+      it "forbids updating a public response of another user without the permission(manage_public_responses)" do
+        patch :update, params: { id: 4, response: { name: 'Renamed' } }
+
+        expect(response).to have_http_status(:forbidden)
+        expect(Response.find(4).name).to eq('Public response')
+      end
+
+      it "forbids updating a private response of another user even with the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        patch :update, params: { id: 5, response: { name: 'Renamed' } }
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "deletes a public response of another user when the user has the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        @request.env['HTTP_REFERER'] = '/responses'
+
+        expect { delete :destroy, params: { id: 4 } }.to change { Response.count }.by(-1)
+      end
+
+      it "creates a public response when the user has the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        post :create, params: { response: { name: 'Shared', note: 'Note', project_id: '', visibility: Response::VISIBILITY_PUBLIC } }
+
+        expect(Response.last.name).to eq('Shared')
+        expect(Response.last.visibility).to eq(Response::VISIBILITY_PUBLIC)
+      end
+
+      it "shows response visibility options when the user has the permission(manage_public_responses)" do
+        user_2.roles_for_project(project_1).first.add_permission! :manage_public_responses
+        get :new
+
+        expect(response).to have_http_status(:success)
+        assert_select "input[name='response[visibility]']", 2
+      end
+    end
   end
 
   describe "Responses index" do

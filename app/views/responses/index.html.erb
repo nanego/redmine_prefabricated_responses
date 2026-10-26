@@ -53,10 +53,8 @@
 
           <td class="buttons">
             <%= link_to sprite_icon('list', l(:button_show)), response_path(response) %>
-            <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>
+            <% if response.editable_by?(User.current) %>
               <%= link_to sprite_icon('edit', l(:button_edit)), edit_response_path(response) %>
-            <% end %>
-            <% if User.current.admin? || response.author == User.current || (response.visibility != Response::VISIBILITY_PRIVATE && User.current.allowed_to?(:manage_public_responses, response.project)) %>  
               <%= delete_link response_path(response) %>
             <% end %>
           </td>

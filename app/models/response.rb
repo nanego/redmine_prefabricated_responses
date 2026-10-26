@@ -49,6 +49,26 @@ class Response < ApplicationRecord
     where(visibility: VISIBILITY_PUBLIC, project_id: nil).where.not(author_id: user.id)
   end
 
+  # Responses without project listed to the user: their own ones, plus public
+  # ones from others if they can manage public responses
+  def self.without_project_for(user)
+    if manage_public_allowed?(user, nil)
+      owned_without_project(user).or(where(visibility: VISIBILITY_PUBLIC, project_id: nil))
+    else
+      owned_without_project(user)
+    end
+  end
+
+  # global: true is required for responses without project, it is ignored when a project is given
+  def self.manage_public_allowed?(user, project)
+    user.admin? || user.allowed_to?(:manage_public_responses, project, global: true)
+  end
+
+  def editable_by?(user)
+    user.admin? || author == user ||
+      (visibility != VISIBILITY_PRIVATE && Response.manage_public_allowed?(user, project))
+  end
+
   def self.global_for_project(user = User.current, project_id)
     scope = joins("INNER JOIN #{Project.table_name} ON #{table_name}.project_id = #{Project.table_name}.id").
       where("#{table_name}.project_id = ?", project_id)
