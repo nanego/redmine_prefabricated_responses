@@ -1,7 +1,8 @@
-<h3><%= l(:label_responses) %></h3>
-<ul>
-  <li>
-    <%= link_to l(:label_all_responses), responses_path %>
-  </li>
-</ul>
-
+<% if Response.manage_allowed?(User.current, nil) %>
+  <h3><%= l(:label_responses) %></h3>
+  <ul>
+    <li>
+      <%= link_to l(:label_all_responses), responses_path %>
+    </li>
+  </ul>
+<% end %>

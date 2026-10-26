@@ -27,8 +27,7 @@ class ResponsesController < ApplicationController
   def new
     @response = Response.new
     @response.project = params[:project_id] ? Project.find(params[:project_id]) : nil
-    unless User.current.admin? || User.current.allowed_to?(:manage_own_responses, @response.project,
-global: true) || User.current.allowed_to?(:manage_public_responses, @response.project, global: true)
+    unless Response.manage_allowed?(User.current, @response.project)
       render_403
       return false
     end

@@ -60,6 +60,12 @@ class Response < ApplicationRecord
   end
 
   # global: true is required for responses without project, it is ignored when a project is given
+  def self.manage_allowed?(user, project)
+    user.admin? ||
+      user.allowed_to?(:manage_own_responses, project, global: true) ||
+      manage_public_allowed?(user, project)
+  end
+
   def self.manage_public_allowed?(user, project)
     user.admin? || user.allowed_to?(:manage_public_responses, project, global: true)
   end
