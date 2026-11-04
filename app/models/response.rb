@@ -19,7 +19,7 @@ class Response < ApplicationRecord
 
   safe_attributes "name", "initial_status_ids", "final_status_id",
                   "time_limit", "note",
-                  "author_id", "project_ids",
+                  "project_ids",
                   "enabled", "organization_ids",
                   "tracker_ids", "assigned_to_id",
                   "project_id", "visibility"

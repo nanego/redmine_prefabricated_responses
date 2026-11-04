@@ -68,6 +68,35 @@ describe ResponsesController, type: :controller do
     end
   end
 
+  describe "response author" do
+    let(:private_attributes) do
+      { name: 'private_response', enabled: '1', project_id: '1', visibility: Response::VISIBILITY_PRIVATE,
+        initial_status_ids: ['1'], final_status_id: '5', tracker_ids: ['1'], note: 'note for test' }
+    end
+
+    before do
+      user_2.roles_for_project(project_1).first.add_permission! :manage_own_responses
+      @request.session[:user_id] = 2
+    end
+
+    it "ignores a submitted author when creating a response" do
+      post :create, params: { response: private_attributes.merge(author_id: '3') }
+
+      expect(Response.find_by!(name: 'private_response').author_id).to eq(2)
+    end
+
+    it "ignores a submitted author when updating a response" do
+      post :create, params: { response: private_attributes }
+      own_response = Response.find_by!(name: 'private_response')
+
+      patch :update, params: { id: own_response.id, response: { name: 'renamed_response', author_id: '3' } }
+
+      own_response.reload
+      expect(own_response.name).to eq('renamed_response')
+      expect(own_response.author_id).to eq(2)
+    end
+  end
+
   describe "POST add" do
     it "adds a response to this issue by changing the note before sending, but without changing the value of response's note" do
       expect do
